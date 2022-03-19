@@ -3,9 +3,8 @@ import torch
 import torch.nn as nn
 
 
-def make_fc(num_features, num_layers, activation, intermediate_size, dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')):
+def make_fc(num_features, num_layers, activation, intermediate_size,):
 
-    torch.set_default_tensor_type('torch.cuda.FloatTensor')
     if num_layers > 1:
         if activation == 'relu':
             activation_fn = nn.ReLU

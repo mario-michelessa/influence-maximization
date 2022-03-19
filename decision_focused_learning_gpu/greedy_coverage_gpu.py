@@ -1,9 +1,6 @@
 import torch
 from numba import cuda
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-torch.set_default_tensor_type('torch.cuda.FloatTensor')
-
 def set_func(S, P, w):
     '''
     outputs set function value.
