@@ -3548,3 +3548,53 @@ decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP/7.npz
 decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP/8.npz
 decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP/9.npz
 test_model.ipynb
+figures/graph_analysis/average prob topics.png
+figures/graph_analysis/corr mat topics.png
+figures/grd_main/features instance topo.png
+figures/grd_main/features instance.png
+figures/grd_main/model output 2s cheat.png
+figures/grd_main/model output 2s topo.png
+figures/grd_main/model output 2s.png
+figures/grd_main/model output df cheat.png
+figures/grd_main/model output df topo.png
+figures/grd_main/model output df.png
+figures/grd_main/result 2s no cheat.png
+figures/grd_main/result 2s topo.png
+figures/grd_main/result df no cheat 2.png
+figures/grd_main/weight 2s topo.png
+figures/grd_main/weight df cheat.png
+figures/grd_main/weight df topo 4.png
+figures/grd_main/weight df topo.png
+figures/grd_main/weight df.png
+figures/grd_main/weights 2s cheat.png
+figures/grd_main/weights 2s.png
+figures/initial_results/initial_results_db.png
+figures/grd_main/model output 2s cheat.png
+figures/grd_main/model output df cheat.png
+figures/grd_main/weight df cheat.png
+figures/grd_main/weights 2s cheat.png
+figures/initial_results/initial_results_db.png
+decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP_2/0.npz
+decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP_2/1.npz
+decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP_2/2.npz
+decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP_2/3.npz
+decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP_2/4.npz
+decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP_2/5.npz
+decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP_2/6.npz
+decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP_2/7.npz
+decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP_2/8.npz
+decision_focused_learning_gpu/instances_weibo/oversampled_FE_LP_2/9.npz
+data/weibo/~$st_3_examples_topic.docx
+data/weibo/best_3_examples_topic (1).docx
+data/weibo/best_3_examples_topic en-US.pdf
+data/weibo/best_3_examples_topic_en.pdf
+data/weibo/best_3_examples_topic.docx
+data/weibo/best_3_examples_topic.pdf
+data/weibo/best_3_examples_topic.txt
+data/weibo/edges_1000.pkl
+data/weibo/topic.pkl
+data/weibo/topics_8.pkl
+data/weibo/weibodata/~$ot_content.txt
+data/weibo/weibodata/graph_head1000.txt
+data/weibo/weibodata/root_content2.txt
+data/weibo/weibodata/topic-100/~$topic
