@@ -3598,3 +3598,108 @@ data/weibo/weibodata/~$ot_content.txt
 data/weibo/weibodata/graph_head1000.txt
 data/weibo/weibodata/root_content2.txt
 data/weibo/weibodata/topic-100/~$topic
+data/twitter/df_retweets_filtered.pkl
+data/twitter/graph_twitter_full.csv
+data/twitter/retweetsranked_full.csv
+data/twitter/retweetstext.csv
+data/twitter/statistics.pkl
+data/twitter/graphs/1Kuser.net
+data/twitter/graphs/communities.gexf
+data/twitter/graphs/first100user.gexf
+data/twitter/graphs/first100user.net
+data/twitter/graphs/first100users5core.gexf
+data/twitter/graphs/ssRT5.gexf
+data/twitter/graphs/test_1M.net
+data/twitter/graphs/test.net
+data/twitter/graphs/weighted_100.gexf
+data/twitter/results/influence_edges_real_ids.txt
+data/twitter/results/influence_edges.txt
+data/twitter/results/script.sh
+data/twitter/results/statistics.py
+data/twitter/results/statistics.txt
+data/twitter/results/testing.out
+data/weibo_features/features_influencers_100K_150.pkl
+data/weibo_features/features_targets_100K_150.pkl
+data/weibo_preprocessed/backup_topics_users.pkl
+data/weibo_preprocessed/edges_5000_200.pkl
+data/weibo_preprocessed/edges_10000_100.pkl
+data/weibo_preprocessed/edges_10000_200.pkl
+data/weibo_preprocessed/edges2_100K_150.pkl
+data/weibo_preprocessed/infos_cascades.pkl
+data/weibo_preprocessed/infos_influencers.pkl
+data/weibo_preprocessed/infos_targets.pkl
+data/weibo_preprocessed/labels_5000_200.pkl
+data/weibo_preprocessed/labels_10000_100.pkl
+data/weibo_preprocessed/labels_10000_200.pkl
+data/weibo_preprocessed/labels2_100K_150.pkl
+data/weibo_preprocessed/labels2_100K_200.pkl
+data/weibo_preprocessed/topic.pkl
+data/weibo_preprocessed/topics_8.pkl
+data/weibo_preprocessed/user_cascades.pkl
+data/weibo_preprocessed/userProfile.pkl
+decision_focused_learning_gpu/instances_weibo/29_features/0.npz
+decision_focused_learning_gpu/instances_weibo/29_features/1.npz
+decision_focused_learning_gpu/instances_weibo/29_features/2.npz
+decision_focused_learning_gpu/instances_weibo/29_features/3.npz
+decision_focused_learning_gpu/instances_weibo/29_features/4.npz
+decision_focused_learning_gpu/instances_weibo/29_features/5.npz
+decision_focused_learning_gpu/instances_weibo/29_features/6.npz
+decision_focused_learning_gpu/instances_weibo/29_features/7.npz
+decision_focused_learning_gpu/instances_weibo/29_features/8.npz
+decision_focused_learning_gpu/instances_weibo/29_features/9.npz
+decision_focused_learning_gpu/wandb/run-20220406_121616-4uqk799d/run-4uqk799d.wandb
+decision_focused_learning_gpu/wandb/run-20220406_121616-4uqk799d/files/conda-environment.yaml
+decision_focused_learning_gpu/wandb/run-20220406_121616-4uqk799d/files/config.yaml
+decision_focused_learning_gpu/wandb/run-20220406_121616-4uqk799d/files/output.log
+decision_focused_learning_gpu/wandb/run-20220406_121616-4uqk799d/files/requirements.txt
+decision_focused_learning_gpu/wandb/run-20220406_121616-4uqk799d/files/wandb-metadata.json
+decision_focused_learning_gpu/wandb/run-20220406_121616-4uqk799d/files/wandb-summary.json
+decision_focused_learning_gpu/wandb/run-20220406_121616-4uqk799d/logs/debug-internal.log
+decision_focused_learning_gpu/wandb/run-20220406_121616-4uqk799d/logs/debug.log
+decision_focused_learning_gpu/wandb/run-20220406_121659-2b8mciqc/run-2b8mciqc.wandb
+decision_focused_learning_gpu/wandb/run-20220406_121659-2b8mciqc/files/conda-environment.yaml
+decision_focused_learning_gpu/wandb/run-20220406_121659-2b8mciqc/files/config.yaml
+decision_focused_learning_gpu/wandb/run-20220406_121659-2b8mciqc/files/output.log
+decision_focused_learning_gpu/wandb/run-20220406_121659-2b8mciqc/files/requirements.txt
+decision_focused_learning_gpu/wandb/run-20220406_121659-2b8mciqc/files/wandb-metadata.json
+decision_focused_learning_gpu/wandb/run-20220406_121659-2b8mciqc/files/wandb-summary.json
+decision_focused_learning_gpu/wandb/run-20220406_121659-2b8mciqc/logs/debug-internal.log
+decision_focused_learning_gpu/wandb/run-20220406_121659-2b8mciqc/logs/debug.log
+figures/feature_engineering/pairgrid_equal.png
+figures/feature_engineering/pairgrid_topical_type.png
+figures/feature_engineering/pairgrid_uniform.png
+figures/grd_main/29 features/comparison_models.png
+figures/grd_main/29 features/model_output_2s.png
+figures/grd_main/29 features/model_output_df.png
+figures/grd_main/29 features/weights_2s.png
+figures/grd_main/29 features/weights_df.png
+figures/grd_main/29 features packed labels/comparison_model.png
+figures/grd_main/29 features packed labels/curves 2s.png
+figures/grd_main/29 features packed labels/curves df 2.png
+figures/grd_main/29 features packed labels/curves df.png
+figures/grd_main/29 features packed labels/output_2s.png
+figures/grd_main/29 features packed labels/output_df.png
+figures/grd_main/29 features packed labels/weights_2s.png
+figures/grd_main/29 features packed labels/weights_df.png
+figures/preprocessing_weibo/distribution_labels_ss2.png
+figures/topic_analysis/avg_prob_new_topics.png
+figures/topic_analysis/best_3_examples_topic (1).docx
+figures/topic_analysis/best_3_examples_topic en-US.pdf
+figures/topic_analysis/best_3_examples_topic_en.pdf
+figures/topic_analysis/best_3_examples_topic.docx
+figures/topic_analysis/best_3_examples_topic.pdf
+figures/topic_analysis/best_3_examples_topic.txt
+figures/topic_analysis/best_3ex_decrypted.pdf
+figures/topic_analysis/best_ex_topic8_10 en-US.doc
+figures/topic_analysis/best_ex_topic8_10 en-US.docx
+figures/topic_analysis/best_ex_topic8_10 en-US.pdf
+figures/topic_analysis/best_ex_topic8_10.docx
+figures/topic_analysis/cleaned_topic8_examples.docx
+figures/topic_analysis/correlation_matrix_100.png
+figures/topic_analysis/dendogram_100.png
+figures/topic_analysis/distribution_8topics.png
+figures/topic_analysis/distribution_100topics.png
+figures/topic_analysis/examples_topic8_2.txt
+figures/topic_analysis/examples_topic8.txt
+figures/topic_analysis/selected-downloads.zip
+figures/topic_analysis/topics.txt
