@@ -1,19 +1,6 @@
 
 import torch
-#import numpy as np
 
-# class GreedyContext():
-
-#     def __init__(self, set_func, marginal_vec, n, K, eps, sample_size, beta = 1):
-        
-#         self.set_func = set_func
-#         self.marginal_vec = marginal_vec
-#         self.n = n
-#         self.K = K
-#         self.eps = eps
-#         self.sample_size = sample_size
-#         self.beta = beta
-#         self.softmax = torch.nn.Softmax(dim = -1)
 class GreedyOptimizer(torch.autograd.Function):
 
     @staticmethod
