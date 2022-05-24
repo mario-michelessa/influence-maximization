@@ -1,5 +1,4 @@
 import torch
-from numba import cuda
 
 def set_func(S, P, w):
     '''
@@ -18,7 +17,7 @@ def marginal_vec(S, P, w):
     s = torch.zeros(P.shape[0])
     s[S] = torch.ones(len(S))
     sc = torch.ones_like(s) - s
-    return sc * torch.mv(P, w * torch.prod(1 - (s*P.T).T, axis = 0)) #mv = matrix vector multiplication, normal *   
+    return sc * torch.mv(P, w * torch.prod(1 - (s*P.T).T, axis = 0) )   #mv = matrix vector multiplication, normal *   
     
 def greedy(K, P, w):
     '''
@@ -29,7 +28,8 @@ def greedy(K, P, w):
     for i in range(K):
         g = marginal_vec(S, P, w)
         s = int(torch.argmax(g))
-        if s not in S: S += [s]
-        val += g[s]
+        if s not in S: 
+            S += [s]
+            val += g[s]
     return val, S
     
