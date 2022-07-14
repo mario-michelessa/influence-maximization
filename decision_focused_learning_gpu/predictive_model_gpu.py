@@ -12,6 +12,8 @@ def make_fc(num_features, num_layers, activation, hidden_layers_sizes, dropout =
             activation_fn = nn.ReLU
         elif activation == 'sigmoid':
             activation_fn = nn.Sigmoid
+        elif activation == 'swish':
+            activation_fn = nn.SiLU
         else:
             raise Exception('Invalid activation function: ' + str(activation))
         net_layers = [nn.Linear(num_features, hidden_layers_sizes[0]), activation_fn()]
