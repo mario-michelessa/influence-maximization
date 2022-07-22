@@ -440,13 +440,13 @@ if __name__ == '__main__':
     
         
     ### User profile infos ###
-    # user_profile = convert_userProfile(True)
-    # user_profile = pd.read_pickle(output_folder + "userProfile.pkl")
+    user_profile = convert_userProfile(True)
+    user_profile = pd.read_pickle(output_folder + "userProfile.pkl")
 
     ### Cascades infos ###
-    # user_cascades, infos_cascades = extract_info_cascades(True)
-    user_cascades = pd.read_pickle(output_folder + "user_cascades.pkl")
-    infos_cascades = pd.read_pickle(output_folder + "infos_cascades.pkl")
+    user_cascades, infos_cascades = extract_info_cascades(True)
+    # user_cascades = pd.read_pickle(output_folder + "user_cascades.pkl")
+    # infos_cascades = pd.read_pickle(output_folder + "infos_cascades.pkl")
 
     ### Subsampling and db label estimation ###
     if subsampling == 1 : 
@@ -462,16 +462,16 @@ if __name__ == '__main__':
     labels = estimate_probabilities(edges, True, f"labels{subsampling}_{n1}_{n2}.pkl")
 
     # ### Topic infos ###
-    # df_topic = create_topic_file(True)
-    # df_topic = pd.read_pickle(output_folder + "topic.pkl")
-    # N_TOPICS = 3
-    # df_new_topic = convert_new_topic2(df_topic, True)
-    # # df_new_topic = pd.read_pickle(output_folder + f"topics_3.pkl")    
-    # d_new_topic = defaultdict(lambda : 1/N_TOPICS * np.ones(N_TOPICS))
-    # for mid in df_new_topic.index : 
-    #     d_new_topic[mid] = np.array(df_new_topic.loc[mid])
-    # infos_targets = create_topic_per_target(True)
-    # infos_influencers = create_topic_per_influencer(True)
+    df_topic = create_topic_file(True)
+    df_topic = pd.read_pickle(output_folder + "topic.pkl")
+    N_TOPICS = 3
+    df_new_topic = convert_new_topic2(df_topic, True)
+    # df_new_topic = pd.read_pickle(output_folder + f"topics_3.pkl")    
+    d_new_topic = defaultdict(lambda : 1/N_TOPICS * np.ones(N_TOPICS))
+    for mid in df_new_topic.index : 
+        d_new_topic[mid] = np.array(df_new_topic.loc[mid])
+    infos_targets = create_topic_per_target(True)
+    infos_influencers = create_topic_per_influencer(True)
 
     ### Topology infos ###
     influencers = list(edges.groupby('u').count().index) #with uid

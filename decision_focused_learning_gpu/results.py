@@ -8,12 +8,15 @@ import numpy as np
 from greedy_coverage_gpu import greedy, set_func
 import random 
 
-models_path = "models/2-less-reg-coeff/"
+device = 'cpu'
+
+models_path = "results/4-150/"
+log_path = models_path + "perf_sparse.txt"
+
 model_df_name = "net_df_20_5_db"
 model_2s_name = "net_2s_20_5_db"
 
-instances_path = "../decision_focused_learning_gpu/instances_weibo/06-30-sparse/"
-log_path = "results/perfs_sparse.txt"
+instances_path = "instances_weibo/06-30-sparse/"
 
 LABEL = 'DB'
 N_INSTANCES, N_INFLUENCERS, N_TARGETS, N_FEATURES = 1, 1000, 1000, 19 #size of instances
@@ -69,8 +72,8 @@ def results_model(logs, net, name):
     exps = []
     dnis = []
     for k in Ks :
-        exps.append( np.mean([   set_func(   greedy(k, net(X[i]).view_as(Y[0]), w)[1], Y[i], w) for i in range(X.shape[0])]) )
-        dnis.append( np.mean([   dni(        greedy(k, net(X[i]).view_as(Y[0]), w)[1], Ydb[i]) for i in range(X.shape[0])]) )
+        exps.append( np.mean([   set_func(   greedy(k, net(X[i]).view_as(Y[0]), w, device)[1], Y[i], w, device) for i in range(X.shape[0])]) )
+        dnis.append( np.mean([   dni(        greedy(k, net(X[i]).view_as(Y[0]), w, device)[1], Ydb[i]) for i in range(X.shape[0])]) )
     logs.write(f"Exp {name}, " + ",".join(map(str,exps)) + "\n")
     logs.write(f"DNI {name}, " + ",".join(map(str,dnis)) + "\n")
 
@@ -80,13 +83,13 @@ def results_rdn_grd_deg(logs) :
     exps_deg, dnis_deg = [], []
     
     for k in Ks :
-        exps_rnd.append(np.mean([set_func(random.sample(range(N_INFLUENCERS),k), Y[i], w) for i in range(N_INSTANCES)]))
+        exps_rnd.append(np.mean([set_func(random.sample(range(N_INFLUENCERS),k), Y[i], w, device) for i in range(N_INSTANCES)]))
         dnis_rnd.append(np.mean([dni(     random.sample(range(N_INFLUENCERS),k), Ydb[i]) for i in range(N_INSTANCES)]))
 
-        exps_grd.append(np.mean([greedy(k, Y[i], w)[0].item() for i in range(N_INSTANCES)]))
-        dnis_grd.append(np.mean([dni(   greedy(k, Ydb[i], w)[1], Y[i]) for i in range(N_INSTANCES)]))
+        exps_grd.append(np.mean([greedy(k, Y[i], w, device)[0].item() for i in range(N_INSTANCES)]))
+        dnis_grd.append(np.mean([dni(   greedy(k, Ydb[i], w, device)[1], Ydb[i]) for i in range(N_INSTANCES)]))
 
-        exps_deg.append(np.mean([set_func(highest_degrees(X[i], k), Y[i], w) for i in range(N_INSTANCES)]))
+        exps_deg.append(np.mean([set_func(highest_degrees(X[i], k), Y[i], w, device) for i in range(N_INSTANCES)]))
         dnis_deg.append(np.mean([dni(   highest_degrees(X[i], k), Ydb[i]) for i in range(N_INSTANCES)]))
     
     logs.write(f"Exp rnd, " + ",".join(map(str,exps_rnd)) + "\n")

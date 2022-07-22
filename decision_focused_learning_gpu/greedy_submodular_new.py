@@ -8,10 +8,10 @@ class GreedyOptimizer(torch.autograd.Function):
 
     @staticmethod
     
-    def forward(ctx, P, set_func, marginal_vec, num_items, k, eps,sample_size, beta):
+    def forward(ctx, P, set_func, marginal_vec, num_items, k, eps,sample_size, beta, device):
 
-        vals = torch.zeros(sample_size)
-        sumlogps = torch.zeros_like(vals)
+        vals = torch.zeros(sample_size).to(device)
+        sumlogps = torch.zeros_like(vals).to(device)
         P.retain_grad()
         
         with torch.enable_grad():
@@ -20,7 +20,7 @@ class GreedyOptimizer(torch.autograd.Function):
                 perturbed greedy with gradient computation for backward
                 '''
                 S, sumlogp = [], 0
-                U = torch.tensor(range(num_items))
+                U = torch.tensor(range(num_items)).to(device)
                 for _ in range(k):  
                     g =   marginal_vec(S, P)
                     if len(U) == 0: break
@@ -29,10 +29,6 @@ class GreedyOptimizer(torch.autograd.Function):
                     S += [int(U[v])]
                     U = torch.cat([U[:v],U[v+1:]])
 
-                    # vidx = int(torch.nonzero(U == v)[0])
-                    # U = torch.cat([U[0:vidx], U[vidx+1:]])
-                    # S += [int(v)]
-                    
                     sumlogp = sumlogp + torch.log(p[v])
                 sumlogps[i] = sumlogp
                 vals[i] =   set_func(S)
@@ -46,14 +42,14 @@ class GreedyOptimizer(torch.autograd.Function):
     @once_differentiable
     def backward(ctx, grad_output):
         grad_P = ctx.saved_tensors[0]
-        return - grad_P, None, None, None, None, None,None, None
+        return - grad_P, None, None, None, None, None,None, None, None
 
 class StochasticGreedyOptimizer(torch.autograd.Function):
 
     @staticmethod
-    def forward(ctx, P, true_set_func, partial_marginal_vec, n,  K,  eps, sample_size, beta, nk):
-        vals = torch.zeros(sample_size)
-        sumlogps = torch.zeros_like(vals)
+    def forward(ctx, P, true_set_func, partial_marginal_vec, n,  K,  eps, sample_size, beta, nk, device):
+        vals = torch.zeros(sample_size).to(device)
+        sumlogps = torch.zeros_like(vals).to(device)
         P.retain_grad()
         with torch.enable_grad():
             for i in range(sample_size): #sample size controls the number of time we execute the diff greedy algorithm
@@ -89,4 +85,4 @@ class StochasticGreedyOptimizer(torch.autograd.Function):
     @once_differentiable
     def backward(ctx, grad_output):
         grad = ctx.saved_tensors[0]
-        return - grad, None, None, None, None, None,None, None, None
+        return - grad, None, None, None, None, None,None, None, None, None

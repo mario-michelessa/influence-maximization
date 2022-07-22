@@ -9,10 +9,10 @@ warnings.simplefilter('ignore')
 
 from collections import defaultdict
 
-features_influencers_path = "data/weibo_features/features_influencers2_-1_150_cas.pkl"
-features_targets_path = "data/weibo_features/features_targets2_-1_150_cas.pkl"
-labels_path = "data/weibo_preprocessed/labels2_-1_150.pkl"
-edges_path = "data/weibo_preprocessed/edges2_-1_150.pkl"
+features_influencers_path = "data/weibo_features/features_influencers1_5K_10_cas.pkl"
+features_targets_path = "data/weibo_features/features_targets1_5K_10_cas.pkl"
+labels_path = "data/weibo_preprocessed/labels1_5K_10.pkl"
+edges_path = "data/weibo_preprocessed/edges1_5K_10.pkl"
 
 influencers_embeddings_path = "data/weibo_preprocessed/influencers_embeddings.pkl"
 targets_embeddings_path = "data/weibo_preprocessed/target_embeddings.pkl"
@@ -21,11 +21,11 @@ targets_inf2vec_path = "data/weibo_preprocessed/target_inf2vec.pkl"
 
 PROB_TYPE = 'JI'
 
-path = 'decision_focused_learning_gpu/instances_weibo/07-04-150Cas/'
-N_INSTANCES = 20
-N_INFLUENCERS = 500
-N_TARGETS = 500
-PROP_I = 0.2
+path = 'decision_focused_learning_gpu/instances_weibo/07-17-sparseCas/'
+N_INSTANCES = 1
+N_INFLUENCERS = 1000
+N_TARGETS = 1000
+PROP_I = 1.
 
 # import of the data
 features_influencers = pd.read_pickle(features_influencers_path)

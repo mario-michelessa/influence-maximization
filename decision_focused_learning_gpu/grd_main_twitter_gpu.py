@@ -17,7 +17,7 @@ from greedy_submodular_new import GreedyOptimizer, StochasticGreedyOptimizer
 
 import argparse
 import datetime
-
+ 
 beta = 1                                        #Parameter of greedy optimizer, default 1
 sample_size = 10                                #Parameter of greedy optimizer, default 10
 eps = 0.15                                      #Parameter of greedy optimizer, default 0.1
@@ -28,23 +28,15 @@ dropout = 0.15
 
 N_INFLUENCERS = 500
 N_TARGETS = 500
-N_FEATURES = 21
+N_FEATURES = 24
 N_INSTANCES = 20
 N_TRAIN = int(0.8 * N_INSTANCES)
-instance_path = "instances_weibo/06-30-all_150/"
+instance_path = "instances_weibo/07-04-150Cas/"
 phi = 0.5
 
 q1, q2, q3 = 0.2, 0.5, 0.8 #quantiles for ground_truth probabilities
 low_p, med_p, high_p = 0.2, 0.5, 1 #buckets for ground_truth probabilities
 
-# setting device on GPU if available, else CPU
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-print('Using device:', device)
-
-torch.cuda.empty_cache()
-if device.type == 'cuda':
-    # torch.set_default_tensor_type('torch.cuda.FloatTensor')
-    print(torch.cuda.get_device_name(0))
 
 # Instances definition
 def transform_Y(Y) : 
@@ -122,7 +114,7 @@ def eval_dni(net, X, Y):
     """
     Xgpu = X.to(device)
     Ygpu = Y.to(device)
-    result = np.mean([  dni(    greedy(k, net(Xgpu[i,:,:,:]).view_as(Y_train[0]), w)[1]    ,Ygpu[i]) for i in range(X.shape[0])])
+    result = np.mean([  dni(    greedy(k, net(Xgpu[i,:,:,:]).view_as(Y_train[0]), w, device)[1]    ,Ygpu[i]) for i in range(X.shape[0])])
     del Xgpu, Ygpu
     return float(result) #float is here to delete the gradient if there is a torch gradient
 
@@ -130,8 +122,7 @@ def eval_grd(net, X, Y):
     """  estimates expectation of dni in the bipartite graph: sum(1-prod(1-p_uv))  """
     Xgpu = X.to(device)
     Ygpu = Y.to(device)
-    # print(np.mean([greedy(k, net(X[i,:,:,:]).view_as(Y_train[0]), w)[1].__len__() for i in range(X.shape[0])]))
-    result = np.mean([    set_func(   greedy(k, net(Xgpu[i,:,:,:]).view_as(Y_train[0]), w)[1], Ygpu[i, :, :], w) for i in range(X.shape[0])])
+    result = np.mean([    set_func(   greedy(k, net(Xgpu[i,:,:,:]).view_as(Y_train[0]), w, device)[1], Ygpu[i, :, :], w, device) for i in range(X.shape[0])])
     del Xgpu, Ygpu
     return float(result)
 
@@ -139,7 +130,7 @@ def eval_rnd(X, Y):
     """  Randomly selects seeds and computes influence  """
     sol = random.sample(range(N_INFLUENCERS),k)
     Ygpu = Y.to(device)
-    result = np.mean([set_func(sol, Ygpu[i,:,:], w) for i in range(X.shape[0])])
+    result = np.mean([set_func(sol, Ygpu[i,:,:], w, device) for i in range(X.shape[0])])
     del Ygpu
     return result
 
@@ -160,8 +151,8 @@ def baselines() :
     rd_score_xtrain = np.mean([eval_rnd(X_train, Y_train) for _ in range(10)])
     rd_score_xtest = np.mean([eval_rnd(X_test, Y_test) for _ in range(10)])
 
-    greedy_train = np.mean([greedy(k, Y_train[i].to(device), w)[0].item() for i in range(Y_train.shape[0])])
-    greedy_test = np.mean([greedy(k, Y_test[i].to(device), w)[0].item() for i in range(Y_test.shape[0])])
+    greedy_train = np.mean([greedy(k, Y_train[i].to(device), w, device)[0].item() for i in range(Y_train.shape[0])])
+    greedy_test = np.mean([greedy(k, Y_test[i].to(device), w, device)[0].item() for i in range(Y_test.shape[0])])
 
     print(f"Average random score : {rd_score_xtrain} / {rd_score_xtest}")
     print(f"Oracle greedy score  : {greedy_train} / {greedy_test}")
@@ -187,10 +178,10 @@ def results_model(logs, net, name):
     exps_train, exps_test = [], []
     dnis_train, dnis_test = [], []
     for k in Ks :
-        exps_train.append( np.mean([   set_func(   greedy(k, net(X_train[i]).view_as(Y_train[0]), w)[1], Y_train[i], w) for i in range(X_train.shape[0])]) )
-        exps_test.append( np.mean([    set_func(   greedy(k, net(X_test[i]) .view_as(Y_test[0]), w)[1],  Y_test[i], w) for i in range(X_test.shape[0])]) )
-        dnis_train.append( np.mean([   dni(        greedy(k, net(X_train[i]).view_as(Y_train[0]), w)[1], Y_train[i]) for i in range(X_train.shape[0])]) )
-        dnis_test.append( np.mean([    dni(        greedy(k, net(X_test[i]) .view_as(Y_test[0]), w)[1],  Y_test[i]) for i in range(X_test.shape[0])]) )
+        exps_train.append( np.mean([   set_func(   greedy(k, net(X_train[i]).view_as(Y_train[0]), w, device)[1], Y_train[i], w, device) for i in range(X_train.shape[0])]) )
+        exps_test.append( np.mean([    set_func(   greedy(k, net(X_test[i]) .view_as(Y_test[0]), w, device)[1],  Y_test[i], w, device) for i in range(X_test.shape[0])]) )
+        dnis_train.append( np.mean([   dni(        greedy(k, net(X_train[i]).view_as(Y_train[0]), w, device)[1], Y_train[i]) for i in range(X_train.shape[0])]) )
+        dnis_test.append( np.mean([    dni(        greedy(k, net(X_test[i]) .view_as(Y_test[0]), w, device)[1],  Y_test[i]) for i in range(X_test.shape[0])]) )
     logs.write(f"Exp-train {name}, " + ",".join(map(str,exps_train)) + "\n")
     logs.write(f"Exp-test {name}, " + ",".join(map(str,exps_test)) + "\n")
     logs.write(f"DNI-train {name}, " + ",".join(map(str,dnis_train)) + "\n")
@@ -207,18 +198,18 @@ def results_rdn_grd_deg(logs) :
     dnis_train_deg, dnis_test_deg = [], []
     
     for k in Ks :
-        exps_train_rnd.append(np.mean([set_func(random.sample(range(N_INFLUENCERS),k), Y_train[i], w) for i in range(N_TRAIN)]))
-        exps_test_rnd.append(np.mean([ set_func(random.sample(range(N_INFLUENCERS),k), Y_test[i], w) for i in range(N_INSTANCES - N_TRAIN)]))
+        exps_train_rnd.append(np.mean([set_func(random.sample(range(N_INFLUENCERS),k), Y_train[i], w, device) for i in range(N_TRAIN)]))
+        exps_test_rnd.append(np.mean([ set_func(random.sample(range(N_INFLUENCERS),k), Y_test[i], w, device) for i in range(N_INSTANCES - N_TRAIN)]))
         dnis_train_rnd.append(np.mean([dni(     random.sample(range(N_INFLUENCERS),k), Y_train[i]) for i in range(N_TRAIN)]))
         dnis_test_rnd.append(np.mean([ dni(     random.sample(range(N_INFLUENCERS),k), Y_test[i]) for i in range(N_INSTANCES - N_TRAIN)]))
 
-        exps_train_grd.append(np.mean([greedy(k, Y_train[i], w)[0].item() for i in range(N_TRAIN)]))
-        exps_test_grd.append(np.mean([ greedy(k, Y_test[i], w)[0].item() for i in range(N_INSTANCES - N_TRAIN)]))
-        dnis_train_grd.append(np.mean([dni(   greedy(k, Y_train[i], w)[1], Y_train[i]) for i in range(N_TRAIN)]))
-        dnis_test_grd.append(np.mean([ dni(   greedy(k, Y_test[i], w)[1], Y_test[i]) for i in range(N_INSTANCES - N_TRAIN)]))
+        exps_train_grd.append(np.mean([greedy(k, Y_train[i], w, device)[0].item() for i in range(N_TRAIN)]))
+        exps_test_grd.append(np.mean([ greedy(k, Y_test[i], w, device)[0].item() for i in range(N_INSTANCES - N_TRAIN)]))
+        dnis_train_grd.append(np.mean([dni(   greedy(k, Y_train[i], w, device)[1], Y_train[i]) for i in range(N_TRAIN)]))
+        dnis_test_grd.append(np.mean([ dni(   greedy(k, Y_test[i], w, device)[1], Y_test[i]) for i in range(N_INSTANCES - N_TRAIN)]))
 
-        exps_train_deg.append(np.mean([set_func(highest_degrees(X_train[i], k), Y_train[i], w) for i in range(N_TRAIN)]))
-        exps_test_deg.append(np.mean([ set_func(highest_degrees(X_test[i], k), Y_test[i], w) for i in range(N_INSTANCES - N_TRAIN)]))
+        exps_train_deg.append(np.mean([set_func(highest_degrees(X_train[i], k), Y_train[i], w, device) for i in range(N_TRAIN)]))
+        exps_test_deg.append(np.mean([ set_func(highest_degrees(X_test[i], k), Y_test[i], w, device) for i in range(N_INSTANCES - N_TRAIN)]))
         dnis_train_deg.append(np.mean([dni(   highest_degrees(X_train[i], k), Y_train[i]) for i in range(N_TRAIN)]))
         dnis_test_deg.append(np.mean([ dni(   highest_degrees(X_test[i], k), Y_test[i]) for i in range(N_INSTANCES - N_TRAIN)]))
     
@@ -243,7 +234,7 @@ def train_df() :
     logs_df.write(f"{n} - {date} \n")
     start = datetime.datetime.now()
 
-    net_df = make_fc(N_FEATURES, num_layers, activation, hidden_sizes, dropout)
+    net_df = make_fc(N_FEATURES, num_layers, activation, hidden_sizes, dropout, device)
     net_df.apply(init_weights_df)
     net_df = net_df.to(device)
     # net_df.modules
@@ -253,7 +244,7 @@ def train_df() :
     print("epoch | loss | train_score | test_score | train_dni | test_dni | avg dp | lr")
 
     optimizer = torch.optim.Adam(net_df.parameters(), lr = learning_rate, betas = (momentum, 0.999))
-    marginal_vec_pred = partial(marginal_vec, w = w)
+    marginal_vec_pred = partial(marginal_vec, w = w, device=device)
 
     #LR scheduler 
     lr_sched = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=num_epochs//10 + 1, T_mult=2, eta_min=0.0001, last_epoch=-1)
@@ -266,11 +257,11 @@ def train_df() :
                 Xgpu = X.to(device)
                 Pgpu = P.to(device)
 
-                true_set_func = partial(set_func, P = Pgpu, w = w)
+                true_set_func = partial(set_func, P = Pgpu, w = w, device=device)
                 pred = net_df(Xgpu).view_as(P)
                 fn = GreedyOptimizer.apply
 
-                loss += -fn(pred, true_set_func, marginal_vec_pred, N_INFLUENCERS,  k,  eps, sample_size, beta) + reg_avg(pred)
+                loss += -fn(pred, true_set_func, marginal_vec_pred, N_INFLUENCERS,  k,  eps, sample_size, beta, device) + reg_avg(pred)
                 
             loss = loss / batch_size
             optimizer.zero_grad()
@@ -307,7 +298,7 @@ def train_2s() :
     logs_2s = open('results/2s_training.txt', 'a')
     logs_2s.write(str(date) + '\n')
     start = datetime.datetime.now()
-    net_2s = make_fc(N_FEATURES, num_layers, activation, hidden_sizes, dropout=dropout)
+    net_2s = make_fc(N_FEATURES, num_layers, activation, hidden_sizes, dropout, device)
     net_2s.apply(init_weights_2s)
     net_2s = net_2s.to(device)
     print(net_2s.modules)
@@ -373,6 +364,7 @@ parser.add_argument('--n-iter', type=int, default=1,                help='number
 parser.add_argument('--output-dir', type=str, default="results/",   help='path where models are saved')
 parser.add_argument('--reg-coeff', type=float, default=0.01,        help='regularization coefficient')
 parser.add_argument('--seed', type=int, default=0,                  help='seed')
+parser.add_argument('--device', type=str, default='cuda:0',           help='device')
 
 if __name__ == '__main__':
 
@@ -392,7 +384,13 @@ if __name__ == '__main__':
     output_dir = args.output_dir
     reg_coeff = float(args.reg_coeff)
     torch.manual_seed(int(args.seed))
-    
+    device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
+    print('Using device:', device)
+
+    torch.cuda.empty_cache()
+    if device.type == 'cuda':
+        print(torch.cuda.get_device_name(0))
+
     # Dataset
     w = np.ones(N_TARGETS, dtype=np.float32)
     if not os.path.exists(output_dir) : os.mkdir(output_dir)

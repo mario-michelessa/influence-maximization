@@ -9,10 +9,10 @@ input_folder = 'data/weibo_preprocessed/'
 output_folder = 'data/weibo_features/'
 
 #To edit
-labels_path = input_folder + "labels2_-1_150.pkl"
-edges_path = input_folder + "edges2_-1_150.pkl"
-features_influencers_path = "features_influencers2_-1_150_cas.pkl"
-features_targets_path = "features_targets2_-1_150_cas.pkl"
+labels_path = input_folder + "labels1_5K_10.pkl"
+edges_path = input_folder + "edges1_5K_10.pkl"
+features_influencers_path = "features_influencers1_5K_10_cas.pkl"
+features_targets_path = "features_targets1_5K_10_cas.pkl"
 
 user_profile_path = input_folder + "userProfile.pkl"
 infos_influencers_path = input_folder + "infos_influencers_3.pkl"
