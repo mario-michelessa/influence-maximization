@@ -9,6 +9,11 @@ warnings.simplefilter('ignore')
 
 from collections import defaultdict
 
+# features_influencers_path = "data/weibo_features/features_influencers2_-1_150_cas.pkl"
+# features_targets_path = "data/weibo_features/features_targets2_-1_150_cas.pkl"
+# labels_path = "data/weibo_preprocessed/labels2_-1_150.pkl"
+# edges_path = "data/weibo_preprocessed/edges2_-1_150.pkl"
+
 features_influencers_path = "data/weibo_features/features_influencers1_5K_10_cas.pkl"
 features_targets_path = "data/weibo_features/features_targets1_5K_10_cas.pkl"
 labels_path = "data/weibo_preprocessed/labels1_5K_10.pkl"
@@ -21,8 +26,8 @@ targets_inf2vec_path = "data/weibo_preprocessed/target_inf2vec.pkl"
 
 PROB_TYPE = 'JI'
 
-path = 'decision_focused_learning_gpu/instances_weibo/07-17-sparseCas/'
-N_INSTANCES = 1
+path = 'decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/'
+N_INSTANCES = 20
 N_INFLUENCERS = 1000
 N_TARGETS = 1000
 PROP_I = 1.

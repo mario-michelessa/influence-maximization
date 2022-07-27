@@ -7,20 +7,7 @@ import torch
 import numpy as np
 from greedy_coverage_gpu import greedy, set_func
 import random 
-
-device = 'cpu'
-
-models_path = "results/4-150/"
-log_path = models_path + "perf_sparse.txt"
-
-model_df_name = "net_df_20_5_db"
-model_2s_name = "net_2s_20_5_db"
-
-instances_path = "instances_weibo/06-30-sparse/"
-
-LABEL = 'DB'
-N_INSTANCES, N_INFLUENCERS, N_TARGETS, N_FEATURES = 1, 1000, 1000, 19 #size of instances
-n_iter = 15 # number of different models in the folder
+import argparse
 
 def transform_Y(Y) : 
     Yc = np.copy(Y)
@@ -42,17 +29,20 @@ def create_XY(instance_path):
     for instance in range(N_INSTANCES) :
         XY = np.load(instance_path + f"{instance}.npz")['arr_0']
         X[instance] = XY[:,:,:-3]
-        if LABEL == 'DB' :
+        if LABEL == 'db' :
             Y[instance] = XY[:,:,-3]
-        elif LABEL == 'INFECTOR' :
+        elif LABEL == 'infector' :
             Y[instance] = XY[:,:,-2]
         else :
             Y[instance] = XY[:,:,-1]
         
         Ydb[instance] = XY[:,:,-3]
 
-    if LABEL == 'DB' : Y = transform_Y(Y)
-    Ydb = transform_Y(Ydb)
+    if exp == 'noBox' : 
+        if LABEL == 'db' : Y = transform_Y(Y)
+        Ydb = transform_Y(Ydb)
+    if exp == 'noCas' :
+        X = np.concatenate([X[:,:,:,:7], X[:,:,:,10:]], axis = 3)
     X = torch.from_numpy(X).float()
     Y = torch.from_numpy(Y).float()
     Ydb = torch.from_numpy(Ydb).float()
@@ -62,7 +52,7 @@ def dni(seeds, Y) :
     return (Y[seeds,:].sum(dim=0) > 0).sum().item() 
 
 def highest_degrees(X, k) : 
-    return list(X[:, 0, 5].argsort(descending=True).numpy()[:k])
+    return list(X[:, 0, 5].argsort(descending=True).to('cpu').numpy()[:k])
 
 def results_model(logs, net, name):
     """
@@ -72,7 +62,7 @@ def results_model(logs, net, name):
     exps = []
     dnis = []
     for k in Ks :
-        exps.append( np.mean([   set_func(   greedy(k, net(X[i]).view_as(Y[0]), w, device)[1], Y[i], w, device) for i in range(X.shape[0])]) )
+        exps.append( np.mean([   set_func(   greedy(k, net(X[i]).view_as(Y[0]), w, device)[1], Y[i].to(device), w, device) for i in range(X.shape[0])]) )
         dnis.append( np.mean([   dni(        greedy(k, net(X[i]).view_as(Y[0]), w, device)[1], Ydb[i]) for i in range(X.shape[0])]) )
     logs.write(f"Exp {name}, " + ",".join(map(str,exps)) + "\n")
     logs.write(f"DNI {name}, " + ",".join(map(str,dnis)) + "\n")
@@ -99,10 +89,40 @@ def results_rdn_grd_deg(logs) :
     logs.write(f"Exp deg, " + ",".join(map(str,exps_deg)) + "\n")
     logs.write(f"DNI deg, " + ",".join(map(str,dnis_deg)) + "\n")
     
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--models-path', type=str, default='')
+parser.add_argument('--instances-path', type=str, default='')
+parser.add_argument('--n-iter', type=int, default=15)
+parser.add_argument('--exp', type=str, default="")
+parser.add_argument('--n-instances', type=int, default=20)
+parser.add_argument('--labels', type=str, default='db')
+parser.add_argument('--device', type=str, default='cpu')
+parser.add_argument('--file-name', type=str, default='perf_sparse.txt')
+
+args = parser.parse_args()
+models_path = args.models_path
+instances_path = args.instances_path
+n_iter = int(args.n_iter)
+exp = args.exp
+N_INSTANCES = int(args.n_instances)
+LABEL = args.labels
+device = args.device
+file_name = args.file_name
+
+log_path = models_path + file_name
+model_df_name = f"net_df_20_5_{LABEL}"
+model_2s_name = f"net_2s_20_5_{LABEL}"
+N_INFLUENCERS, N_TARGETS, N_FEATURES = np.load(instances_path+'0.npz')['arr_0'].shape #size of instances
+N_FEATURES = N_FEATURES - 3 #remove labels
+
+
 if __name__ == "__main__" : 
 
     w = torch.ones(N_INFLUENCERS)
     X, Y, Ydb = create_XY(instances_path)
+    X, Y, Ydb = X.to(device), Y.to(device), Ydb.to(device)
 
     if X.shape[3] == 19 : X = torch.cat((X[:,:,:,:6], torch.zeros((N_INSTANCES, N_INFLUENCERS, N_TARGETS,1)), X[:,:,:,6:15], torch.zeros((N_INSTANCES, N_INFLUENCERS, N_TARGETS,1)),  X[:,:,:,15:]), dim=3)
 
@@ -110,8 +130,8 @@ if __name__ == "__main__" :
     logs = open(log_path, "w")
 
     for n in range(n_iter) : 
-        model_df = torch.load(models_path + f"{model_df_name}_{n}.pt").to('cpu')
-        model_2s = torch.load(models_path + f"{model_2s_name}_{n}.pt").to('cpu')    
+        model_df = torch.load(models_path + f"{model_df_name}_{n}.pt").to(device)
+        model_2s = torch.load(models_path + f"{model_2s_name}_{n}.pt").to(device)    
 
         print(f'Testing models {n}')
         results_model(logs, model_df, "df")

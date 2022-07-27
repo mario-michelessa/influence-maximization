@@ -6,6 +6,7 @@ def set_func(S, P, w, device):
     '''
     w = torch.Tensor(w).to(device)
     s = torch.zeros(P.shape[0]).to(device)
+    P = P.to(device)
     s[S] = 1
     return float(torch.dot(w, 1 - torch.prod(1 - (s*P.T).T, axis = 0)))
 

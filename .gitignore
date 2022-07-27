@@ -9803,3 +9803,346 @@ decision_focused_learning_gpu/instances_weibo/05-19-all_200_0pos_0.2PropI/8.npz
 decision_focused_learning_gpu/instances_weibo/05-19-all_200_0pos_0.2PropI/9.npz
 decision_focused_learning_gpu/results/2s_training.txt
 decision_focused_learning_gpu/results/df_training.txt
+decision_focused_learning_gpu/results/24-150cas/2s_training.txt
+decision_focused_learning_gpu/results/24-150cas/baseline.txt
+decision_focused_learning_gpu/results/24-150cas/df_training.txt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_0.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_1.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_2.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_3.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_4.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_5.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_6.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_7.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_8.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_9.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_10.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_11.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_12.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_13.pt
+decision_focused_learning_gpu/results/24-150cas/net_2s_20_5_db_14.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_0.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_1.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_2.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_3.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_4.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_5.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_6.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_7.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_8.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_9.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_10.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_11.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_12.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_13.pt
+decision_focused_learning_gpu/results/24-150cas/net_df_20_5_db_14.pt
+decision_focused_learning_gpu/results/24-150cas/perf_sparse_mean.csv
+decision_focused_learning_gpu/results/24-150cas/perf_sparse_std.csv
+decision_focused_learning_gpu/results/24-150cas/perf_sparse.txt
+decision_focused_learning_gpu/results/24-150cas/perfs_train_test_mean.csv
+decision_focused_learning_gpu/results/24-150cas/perfs_train_test_std.csv
+decision_focused_learning_gpu/results/24-150cas/perfs_train_test.txt
+decision_focused_learning_gpu/results/24-150cas/perfs_twitter_mean.csv
+decision_focused_learning_gpu/results/24-150cas/perfs_twitter_std.csv
+decision_focused_learning_gpu/results/24-150cas/perfs_twitter.txt
+decision_focused_learning_gpu/results/24-150cas_infector/2s_training.txt
+decision_focused_learning_gpu/results/24-150cas_infector/baseline.txt
+decision_focused_learning_gpu/results/24-150cas_infector/df_training.txt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_0.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_1.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_2.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_3.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_4.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_5.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_6.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_7.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_8.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_9.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_10.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_11.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_12.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_13.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_2s_20_5_infector_14.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_0.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_1.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_2.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_3.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_4.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_5.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_6.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_7.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_8.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_9.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_10.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_11.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_12.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_13.pt
+decision_focused_learning_gpu/results/24-150cas_infector/net_df_20_5_infector_14.pt
+decision_focused_learning_gpu/results/24-150cas_infector/perf_sparse_mean.csv
+decision_focused_learning_gpu/results/24-150cas_infector/perf_sparse_std.csv
+decision_focused_learning_gpu/results/24-150cas_infector/perf_sparse.txt
+decision_focused_learning_gpu/results/24-150cas_infector/perfs_train_test_mean.csv
+decision_focused_learning_gpu/results/24-150cas_infector/perfs_train_test_std.csv
+decision_focused_learning_gpu/results/24-150cas_infector/perfs_train_test.txt
+decision_focused_learning_gpu/results/24-150cas_no_box/2s_training.txt
+decision_focused_learning_gpu/results/24-150cas_no_box/baseline.txt
+decision_focused_learning_gpu/results/24-150cas_no_box/df_training.txt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_0.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_1.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_2.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_3.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_4.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_5.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_6.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_7.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_8.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_9.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_10.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_11.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_12.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_13.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_2s_20_5_db_14.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_0.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_1.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_2.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_3.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_4.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_5.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_6.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_7.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_8.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_9.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_10.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_11.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_12.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_13.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/net_df_20_5_db_14.pt
+decision_focused_learning_gpu/results/24-150cas_no_box/perf_sparse_mean.csv
+decision_focused_learning_gpu/results/24-150cas_no_box/perf_sparse_std.csv
+decision_focused_learning_gpu/results/24-150cas_no_box/perf_sparse.txt
+decision_focused_learning_gpu/results/24-150cas_no_box/perfs_train_test_mean.csv
+decision_focused_learning_gpu/results/24-150cas_no_box/perfs_train_test_std.csv
+decision_focused_learning_gpu/results/24-150cas_no_box/perfs_train_test.txt
+decision_focused_learning_gpu/results/24-150cas_no_box/perfs_twitter_mean.csv
+decision_focused_learning_gpu/results/24-150cas_no_box/perfs_twitter_std.csv
+decision_focused_learning_gpu/results/24-150cas_no_box/perfs_twitter.txt
+decision_focused_learning_gpu/results/24-150cas_no_reg/2s_training.txt
+decision_focused_learning_gpu/results/24-150cas_no_reg/baseline.txt
+decision_focused_learning_gpu/results/24-150cas_no_reg/df_training.txt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_0.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_1.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_2.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_3.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_4.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_5.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_6.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_7.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_8.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_9.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_10.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_11.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_12.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_13.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_2s_20_5_db_14.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_0.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_1.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_2.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_3.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_4.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_5.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_6.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_7.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_8.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_9.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_10.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_11.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_12.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_13.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/net_df_20_5_db_14.pt
+decision_focused_learning_gpu/results/24-150cas_no_reg/perf_sparse_mean.csv
+decision_focused_learning_gpu/results/24-150cas_no_reg/perf_sparse_std.csv
+decision_focused_learning_gpu/results/24-150cas_no_reg/perf_sparse.txt
+decision_focused_learning_gpu/results/24-150cas_no_reg/perfs_train_test_mean.csv
+decision_focused_learning_gpu/results/24-150cas_no_reg/perfs_train_test_std.csv
+decision_focused_learning_gpu/results/24-150cas_no_reg/perfs_train_test.txt
+decision_focused_learning_gpu/results/24-150cas_no_reg/perfs_twitter_mean.csv
+decision_focused_learning_gpu/results/24-150cas_no_reg/perfs_twitter_std.csv
+decision_focused_learning_gpu/results/24-150cas_no_reg/perfs_twitter.txt
+decision_focused_learning_gpu/results/24-150noCas/2s_training.txt
+decision_focused_learning_gpu/results/24-150noCas/baseline.txt
+decision_focused_learning_gpu/results/24-150noCas/df_training.txt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_0.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_1.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_2.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_3.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_4.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_5.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_6.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_7.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_8.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_9.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_10.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_11.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_12.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_13.pt
+decision_focused_learning_gpu/results/24-150noCas/net_2s_20_5_db_14.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_0.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_1.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_2.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_3.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_4.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_5.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_6.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_7.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_8.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_9.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_10.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_11.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_12.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_13.pt
+decision_focused_learning_gpu/results/24-150noCas/net_df_20_5_db_14.pt
+decision_focused_learning_gpu/results/24-150noCas/perf_sparse_mean.csv
+decision_focused_learning_gpu/results/24-150noCas/perf_sparse_std.csv
+decision_focused_learning_gpu/results/24-150noCas/perf_sparse.txt
+decision_focused_learning_gpu/results/24-150noCas/perf_twitter_mean.csv
+decision_focused_learning_gpu/results/24-150noCas/perf_twitter_std.csv
+decision_focused_learning_gpu/results/24-150noCas/perf_twitter.txt
+decision_focused_learning_gpu/results/24-150noCas/perfs_train_test_mean.csv
+decision_focused_learning_gpu/results/24-150noCas/perfs_train_test_std.csv
+decision_focused_learning_gpu/results/24-150noCas/perfs_train_test.txt
+decision_focused_learning_gpu/results/24-150noCas/perfs_twitter_mean.csv
+decision_focused_learning_gpu/results/24-150noCas/perfs_twitter_std.csv
+decision_focused_learning_gpu/results/24-150noCas/perfs_twitter.txt
+figures/convert_file/Classeur1.xlsx
+figures/convert_file/comparison df sparse.png
+figures/convert_file/comparison df test.png
+figures/convert_file/comparison df twitter.png
+figures/convert_file/dni 150cas sparse.png
+figures/convert_file/dni 150cas test.png
+figures/convert_file/dni 150cas train.png
+figures/convert_file/dni 150cas twiter.png
+figures/convert_file/dni no box sparse.png
+figures/convert_file/dni no box test.png
+figures/convert_file/dni no box train.png
+figures/convert_file/dni no box twitter.png
+figures/convert_file/dni no regularization sparse.png
+figures/convert_file/dni no regularization test.png
+figures/convert_file/DNI no regularization train.png
+figures/convert_file/dni no regularization twitter.png
+figures/convert_file/dni noCas sparse.png
+figures/convert_file/dni noCas test.png
+figures/convert_file/dni noCas train.png
+figures/convert_file/dni noCas twitter.png
+figures/convert_file/spread 150cas sparse.png
+figures/convert_file/spread 150cas test.png
+figures/convert_file/spread 150cas train.png
+figures/convert_file/spread 150cas twitter.png
+figures/convert_file/spread infector sparse.png
+figures/convert_file/spread infector test.png
+figures/convert_file/spread infector train.png
+figures/convert_file/spread no box sparse.png
+figures/convert_file/spread no box test.png
+figures/convert_file/spread no box train.png
+figures/convert_file/spread no box twitter.png
+figures/convert_file/spread no regularization sparse.png
+figures/convert_file/spread no regularization test.png
+figures/convert_file/spread no regularization train.png
+figures/convert_file/spread no regularization twitterpng.png
+figures/convert_file/spread noCas sparse.png
+figures/convert_file/spread noCas test.png
+figures/convert_file/spread noCas train.png
+figures/convert_file/spread noCas twitter.png
+data/twitter_preprocessed/edges1_5000_10.pkl
+data/twitter_preprocessed/features_influencers1_5000_10.pkl
+data/twitter_preprocessed/features_targets1_5000_10.pkl
+data/twitter_preprocessed/labels1_5000_10.pkl
+data/twitter_preprocessed/07-24-5K_10/0.npz
+data/twitter_preprocessed/07-24-5K_10/1.npz
+data/twitter_preprocessed/07-24-5K_10/2.npz
+data/twitter_preprocessed/07-24-5K_10/3.npz
+data/twitter_preprocessed/07-24-5K_10/4.npz
+data/twitter_preprocessed/07-24-5K_10/5.npz
+data/twitter_preprocessed/07-24-5K_10/6.npz
+data/twitter_preprocessed/07-24-5K_10/7.npz
+data/twitter_preprocessed/07-24-5K_10/8.npz
+data/twitter_preprocessed/07-24-5K_10/9.npz
+data/twitter_preprocessed/07-24-5K_10/10.npz
+data/twitter_preprocessed/07-24-5K_10/11.npz
+data/twitter_preprocessed/07-24-5K_10/12.npz
+data/twitter_preprocessed/07-24-5K_10/13.npz
+data/twitter_preprocessed/07-24-5K_10/14.npz
+data/twitter_preprocessed/07-24-5K_10/15.npz
+data/twitter_preprocessed/07-24-5K_10/16.npz
+data/twitter_preprocessed/07-24-5K_10/17.npz
+data/twitter_preprocessed/07-24-5K_10/18.npz
+data/twitter_preprocessed/07-24-5K_10/19.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/0.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/1.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/2.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/3.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/4.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/5.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/6.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/7.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/8.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/9.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/10.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/11.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/12.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/13.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/14.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/15.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/16.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/17.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/18.npz
+decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/19.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/0.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/1.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/2.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/3.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/4.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/5.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/6.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/7.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/8.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/9.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/10.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/11.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/12.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/13.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/14.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/15.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/16.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/17.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/18.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/19.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/20.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/21.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/22.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/23.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/24.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/25.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/26.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/27.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/28.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/29.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/30.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/31.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/32.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/33.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/34.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/35.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/36.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/37.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/38.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/39.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/40.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/41.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/42.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/43.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/44.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/45.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/46.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/47.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/48.npz
+decision_focused_learning_gpu/instances_weibo/07-23-150cas_less_std/49.npz

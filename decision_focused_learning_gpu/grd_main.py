@@ -26,17 +26,14 @@ k = 20                                          #Parameter of greedy optimizer, 
 activation = 'swish'
 dropout = 0.15
 
-N_INFLUENCERS = 500
-N_TARGETS = 500
-N_FEATURES = 24
-N_INSTANCES = 20
-N_TRAIN = int(0.8 * N_INSTANCES)
-instance_path = "instances_weibo/07-04-150Cas/"
 phi = 0.5
 
 q1, q2, q3 = 0.2, 0.5, 0.8 #quantiles for ground_truth probabilities
 low_p, med_p, high_p = 0.2, 0.5, 1 #buckets for ground_truth probabilities
 
+momentum = 0.8
+num_layers = 2
+hidden_sizes = [240]
 
 # Instances definition
 def transform_Y(Y) : 
@@ -49,8 +46,6 @@ def transform_Y(Y) :
     Y[Yc>t2] = med_p
     Y[Yc>t3] = high_p
     return Y  
-
-softmax = lambda x : np.exp(x)/np.sum(np.exp(x))
 
 def create_train_test(train_id):
     """
@@ -140,25 +135,31 @@ def loss_unbalanced(pred, P) :
 
 def reg_avg(P) : 
     """Prevents model from always predicting 0 or 1"""
-    return reg_coeff * torch.pow(torch.tan((torch.mean(P) + 0.5) * np.pi) + 1, 2)
+    return reg_coeff * (0.02 * 1 / torch.mean(P) + 1 / (1 - torch.mean(P)))
+    # torch.pow(torch.tan((torch.mean(P) + 0.5) * np.pi) + 1, 2)
 
 def baselines() :
 
-    log_rnd = open('results/baseline.txt', 'a')
+    log_rnd = open(output_dir + 'baseline.txt', 'a')
     log_rnd.write(f'{n} - {date} \n')
     start = datetime.datetime.now()
 
-    rd_score_xtrain = np.mean([eval_rnd(X_train, Y_train) for _ in range(10)])
-    rd_score_xtest = np.mean([eval_rnd(X_test, Y_test) for _ in range(10)])
+    rd_score_xtrain = [set_func(random.sample(range(N_INFLUENCERS),k), Y_train[i].to(device), w, device) for i in range(Y_train.shape[0])]
+    rd_score_xtest = [set_func(random.sample(range(N_INFLUENCERS),k), Y_test[i].to(device), w, device) for i in range(Y_test.shape[0])]
 
-    greedy_train = np.mean([greedy(k, Y_train[i].to(device), w, device)[0].item() for i in range(Y_train.shape[0])])
-    greedy_test = np.mean([greedy(k, Y_test[i].to(device), w, device)[0].item() for i in range(Y_test.shape[0])])
+    greedy_train = [greedy(k, Y_train[i].to(device), w, device)[0].item() for i in range(Y_train.shape[0])]
+    greedy_test = [greedy(k, Y_test[i].to(device), w, device)[0].item() for i in range(Y_test.shape[0])]
 
-    print(f"Average random score : {rd_score_xtrain} / {rd_score_xtest}")
-    print(f"Oracle greedy score  : {greedy_train} / {greedy_test}")
+    deg_train = [set_func(highest_degrees(X_train[i], k), Y_train[i], w, device) for i in range(Y_train.shape[0])]
+    deg_test = [set_func(highest_degrees(X_test[i], k), Y_test[i], w, device) for i in range(Y_test.shape[0])]
+    
+    print(f"Average random score : {np.mean(rd_score_xtrain)}({np.std(rd_score_xtrain)}) / {np.mean(rd_score_xtest)}({np.std(rd_score_xtest)})")
+    print(f"Oracle greedy score  : {np.mean(greedy_train)}({np.std(greedy_train)}) / {np.mean(greedy_test)}({np.std(greedy_test)})")
+    print(f"Average degree score : {np.mean(deg_train)}({np.std(deg_train)}) / {np.mean(deg_test)}({np.std(deg_test)})")
     
     log_rnd.write(f"{rd_score_xtrain} / {rd_score_xtest} \n")
     log_rnd.write(f"{greedy_train} / {greedy_test} \n")
+    log_rnd.write(f"{deg_train} / {deg_test} \n")
     log_rnd.write(f"Runtime : {datetime.datetime.now() - start} \n \n")
     log_rnd.close()
 
@@ -171,7 +172,7 @@ def init_weights_2s(m):
         m.weight.data.uniform_(-.5, .5)
 
 def highest_degrees(X, k) : 
-    return list(X[:, 0, 5].argsort(descending=True).numpy()[:k])
+    return list(X[:, 0, 5].argsort(descending=True).to('cpu').numpy()[:k])
 
 def results_model(logs, net, name):
     """ returns lists of influence in terms of DNI and expectation for different values of k given a model """ 
@@ -230,7 +231,7 @@ def results_rdn_grd_deg(logs) :
 # Model definition
 def train_df() : 
 
-    logs_df = open('results/df_training.txt', 'a')
+    logs_df = open(output_dir + 'df_training.txt', 'a')
     logs_df.write(f"{n} - {date} \n")
     start = datetime.datetime.now()
 
@@ -240,7 +241,7 @@ def train_df() :
     # net_df.modules
 
     # Training
-    print("### DECISION-FOCUSED MODEL -- {n} ###")
+    print(f"### DECISION-FOCUSED MODEL -- {n} ###")
     print("epoch | loss | train_score | test_score | train_dni | test_dni | avg dp | lr")
 
     optimizer = torch.optim.Adam(net_df.parameters(), lr = learning_rate, betas = (momentum, 0.999))
@@ -295,7 +296,7 @@ def train_df() :
 # Model definiton
 def train_2s() : 
 
-    logs_2s = open('results/2s_training.txt', 'a')
+    logs_2s = open(output_dir + '2s_training.txt', 'a')
     logs_2s.write(str(date) + '\n')
     start = datetime.datetime.now()
     net_2s = make_fc(N_FEATURES, num_layers, activation, hidden_sizes, dropout, device)
@@ -303,14 +304,12 @@ def train_2s() :
     net_2s = net_2s.to(device)
     print(net_2s.modules)
 
-    loss_fn = nn.MSELoss()
+    loss_fn = nn.MSELoss() 
     
-    optimizer = torch.optim.Adam(net_2s.parameters(), lr = learning_rate, betas = (momentum, 0.999))
-    # optimizer = torch.optim.SGD(net_2s.parameters(), lr = 0.1)
-    lr_sched = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=10, T_mult=2, eta_min=0.0001, last_epoch=-1)
+    optimizer = torch.optim.Adam(net_2s.parameters(), lr = learning_rate_2s, betas = (momentum, 0.999))
     
     # Training
-    print("### 2 STAGE MODEL -- {n} ###")
+    print(f"### 2 STAGE MODEL -- {n} ###")
     print("epoch | loss | train_score | test_score | train_dni | test_dni | avg dp | lr")
 
     for epoch in range(num_epochs):
@@ -327,7 +326,6 @@ def train_2s() :
             loss.backward()
             # torch.nn.utils.clip_grad_norm_(net_2s.parameters(), 1.)
             optimizer.step()
-            lr_sched.step()
         
         with torch.no_grad():
             train_score = eval_grd(net_2s, X_train, Y_train)
@@ -353,10 +351,8 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--num-epochs', type=int, default=20,           help='')
 parser.add_argument('--batch-size', type=int, default=1,            help='')
-parser.add_argument('--learning-rate', type=float, default=1e-2,    help='')
-parser.add_argument('--momentum', type=float, default=0.8,          help='')
-parser.add_argument('--num-layers', type=int, default=2,            help='')
-parser.add_argument('--hidden-sizes', type=list, default=[240],     help='')
+parser.add_argument('--learning-rate', type=float, default=1e-3,    help='')
+parser.add_argument('--learning-rate-2s', type=float, default=1e-2, help='')
 parser.add_argument('--net-df-path', type=str, default="net_df",    help='')
 parser.add_argument('--net-2s-path', type=str, default="net_2s",    help='')
 parser.add_argument('--labels', type=str, default="db",             help='db or infector or inf2vec')
@@ -364,7 +360,7 @@ parser.add_argument('--n-iter', type=int, default=1,                help='number
 parser.add_argument('--output-dir', type=str, default="results/",   help='path where models are saved')
 parser.add_argument('--reg-coeff', type=float, default=0.01,        help='regularization coefficient')
 parser.add_argument('--seed', type=int, default=0,                  help='seed')
-parser.add_argument('--device', type=str, default='cuda:0',           help='device')
+parser.add_argument('--device', type=str, default='cuda:0',         help='device')
 
 if __name__ == '__main__':
 
@@ -374,9 +370,7 @@ if __name__ == '__main__':
     num_epochs = int(args.num_epochs)         
     batch_size = int(args.batch_size)
     learning_rate = float(args.learning_rate)
-    momentum = float(args.momentum)
-    num_layers = int(args.num_layers)
-    hidden_sizes = list(args.hidden_sizes)    
+    learning_rate_2s = float(args.learning_rate_2s)
     net_df_path = args.net_df_path
     net_2s_path = args.net_2s_path
     labels = args.labels
@@ -390,13 +384,20 @@ if __name__ == '__main__':
     torch.cuda.empty_cache()
     if device.type == 'cuda':
         print(torch.cuda.get_device_name(0))
+    
+    instance_path = "instances_weibo/07-04-150Cas/"
+    N_INSTANCES = 20
+    N_INFLUENCERS = 500
+    N_TARGETS = 500
+    N_FEATURES = 24
+    N_TRAIN = int(0.8 * N_INSTANCES)
 
     # Dataset
     w = np.ones(N_TARGETS, dtype=np.float32)
     if not os.path.exists(output_dir) : os.mkdir(output_dir)
     
     print(f"Dataset : {instance_path}")
-    logs = open('results/perfs_train_test.txt', 'a')
+    logs = open(output_dir + '/perfs_train_test.txt', 'a')
     logs.write(f"{datetime.datetime.now()} - Dataset : {instance_path} - labels : {labels} - numepochs : {num_epochs} - batchsize : {batch_size} - lr : {learning_rate} - regcoeff : {reg_coeff} \n")
     Ks = [int(a * N_INFLUENCERS) for a in [0.01,0.02,0.05,0.1,0.2]]
     logs.write(f"Ks : {Ks} \n")
