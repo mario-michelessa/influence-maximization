@@ -4,15 +4,18 @@ import warnings
 warnings.simplefilter('ignore')
 from collections import defaultdict
 import networkx as nx
+import argparse
+import os 
 
 input_folder = 'data/weibo_preprocessed/'
 output_folder = 'data/weibo_features/'
+if not os.path.exists(output_folder) : os.mkdir(output_folder)
 
-#To edit
-labels_path = input_folder + "labels1_5K_10.pkl"
-edges_path = input_folder + "edges1_5K_10.pkl"
-features_influencers_path = "features_influencers1_5K_10_cas.pkl"
-features_targets_path = "features_targets1_5K_10_cas.pkl"
+parser = argparse.ArgumentParser()
+parser.add_argument('--labels-name', type=str, default="labels1_5K_10.pkl")
+parser.add_argument('--edges-name', type=str, default="edges1_5K_10.pkl")
+parser.add_argument('--features-influencers-name', type=str, default="features_influencers1_5K_10_cas.pkl")
+parser.add_argument('--features-targets-name', type=str, default="features_targets1_5K_10_cas.pkl")
 
 user_profile_path = input_folder + "userProfile.pkl"
 infos_influencers_path = input_folder + "infos_influencers_3.pkl"
@@ -37,6 +40,12 @@ infos_targets_path = input_folder + "infos_targets_3.pkl"
 # 
 
 if __name__ == '__main__':
+
+    args = parser.parse_args()
+    labels_path = input_folder + args.labels_name
+    edges_path = input_folder + args.edges_name
+    features_influencers_path = output_folder + args.features_influencers_name 
+    features_targets_path = output_folder + args.features_targets_name 
 
     ### User profile infos 
     user_profile = pd.read_pickle(user_profile_path)
@@ -125,7 +134,7 @@ if __name__ == '__main__':
     print(f"sizes after feature extraction :\nI = {features_influencers.shape[0]}\nT = {features_targets.shape[0]}")
 
     # Saving tables
-    features_influencers.to_pickle(output_folder + features_influencers_path)
-    features_targets.to_pickle(output_folder + features_targets_path)
+    features_influencers.to_pickle(features_influencers_path)
+    features_targets.to_pickle(features_targets_path)
 
 

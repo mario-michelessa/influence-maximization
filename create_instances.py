@@ -9,15 +9,12 @@ warnings.simplefilter('ignore')
 
 from collections import defaultdict
 
-# features_influencers_path = "data/weibo_features/features_influencers2_-1_150_cas.pkl"
-# features_targets_path = "data/weibo_features/features_targets2_-1_150_cas.pkl"
-# labels_path = "data/weibo_preprocessed/labels2_-1_150.pkl"
-# edges_path = "data/weibo_preprocessed/edges2_-1_150.pkl"
+### Parameters to edit
 
-features_influencers_path = "data/weibo_features/features_influencers1_5K_10_cas.pkl"
-features_targets_path = "data/weibo_features/features_targets1_5K_10_cas.pkl"
-labels_path = "data/weibo_preprocessed/labels1_5K_10.pkl"
-edges_path = "data/weibo_preprocessed/edges1_5K_10.pkl"
+features_influencers_path = "data/weibo_features/features_influencers2_-1_150_cas.pkl"
+features_targets_path = "data/weibo_features/features_targets2_-1_150_cas.pkl"
+labels_path = "data/weibo_preprocessed/labels2_-1_150.pkl"
+edges_path = "data/weibo_preprocessed/edges2_-1_150.pkl"
 
 influencers_embeddings_path = "data/weibo_preprocessed/influencers_embeddings.pkl"
 targets_embeddings_path = "data/weibo_preprocessed/target_embeddings.pkl"
@@ -109,6 +106,7 @@ def softmax(x):
         return np.exp(x)/np.sum(np.exp(x))
 
 def transform_Yemb(Y) : 
+    #applies softmax to the rows of the embedding matrices
     Yemb = np.apply_along_axis(lambda x:x-abs(max(x)), 1, Y) 
     Yemb = np.apply_along_axis(softmax, 1, Yemb)
     Yemb = np.around(Yemb,3)
@@ -116,6 +114,7 @@ def transform_Yemb(Y) :
     return Yemb
 
 def create_XY(sampled_influencers, sampled_targets) :
+    """ Returns a matrix of size (len(sampled_influencers), len(sampled_targets), N_FEATURES + 3) where """
     nI = len(sampled_influencers)
     nT = len(sampled_targets)
 
@@ -137,9 +136,6 @@ def create_XY(sampled_influencers, sampled_targets) :
             u,v = sampled_influencers[i], sampled_targets[j]
             X[i,j, :] = feature_vector(u, v, fI[i], fT[j])
 
-            #X[i,j, :] = np.concatenate([features_influencers.loc[sampled_influencers[i]], 
-                                        # features_targets.loc[sampled_targets[j]]], 
-                                        # axis = None)
             Y[i,j] = labels.loc[(u,v)][PROB_TYPE] if d_labels[(u,v)] else 0 
             Y_infector[i,j] = np.dot(eI[i], eT[j])
             Y_inf2vec[i,j] = np.dot(iI[i], iT[j])

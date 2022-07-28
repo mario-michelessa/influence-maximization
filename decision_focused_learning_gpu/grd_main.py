@@ -18,25 +18,31 @@ from greedy_submodular_new import GreedyOptimizer, StochasticGreedyOptimizer
 import argparse
 import datetime
  
-beta = 1                                        #Parameter of greedy optimizer, default 1
-sample_size = 10                                #Parameter of greedy optimizer, default 10
-eps = 0.15                                      #Parameter of greedy optimizer, default 0.1
-k = 20                                          #Parameter of greedy optimizer, default 5
+### To edit
+instance_path = "instances_weibo/07-04-150Cas/"
+N_INSTANCES = 20
+N_INFLUENCERS = 500
+N_TARGETS = 500
+N_FEATURES = 24
+N_TRAIN = int(0.8 * N_INSTANCES)
 
-activation = 'swish'
-dropout = 0.15
 
-phi = 0.5
-
-q1, q2, q3 = 0.2, 0.5, 0.8 #quantiles for ground_truth probabilities
-low_p, med_p, high_p = 0.2, 0.5, 1 #buckets for ground_truth probabilities
-
-momentum = 0.8
-num_layers = 2
-hidden_sizes = [240]
+beta = 1                                        # Parameter of greedy optimizer, default 1
+sample_size = 10                                # Parameter of greedy optimizer, default 10
+eps = 0.15                                      # Parameter of greedy optimizer, default 0.1
+k = 20                                          # Parameter of greedy optimizer, default 5
+activation = 'swish'                            # Activation function of the model, 'swish' or 'relu' or 'sigmoid'
+dropout = 0.15                                  # Dropout proportion of the model
+phi = 0.5                                       # Parameter of the unbalanced loss of the 2-staged model
+q1, q2, q3 = 0.2, 0.5, 0.8                      # quantiles for decision-based ground_truth probabilities
+low_p, med_p, high_p = 0.2, 0.5, 1              # values for decision-based ground_truth probabilities
+momentum = 0.8                                  # Momentum of Adam optimizer
+num_layers = 2                                  # Number of layers of the model
+hidden_sizes = [240]                            # Sizes of the hidden layers
 
 # Instances definition
 def transform_Y(Y) : 
+    """ Maps the values of decision-based labels into higher values"""
     Yc = np.copy(Y)
     t1 = np.quantile(Y[Y>0], q1) # weak probability
     t2 = np.quantile(Y[Y>0], q2) # medium probability
@@ -49,7 +55,7 @@ def transform_Y(Y) :
 
 def create_train_test(train_id):
     """
-    input : train_id, test_id = partition of range(N_INSTANCES)
+    input : train_id = subset of range(N_INSTANCES)
     returns X_train, Y_train, X_test, Y_test
     """
 
@@ -93,7 +99,7 @@ def create_train_test(train_id):
 
     return X_train, Y_train, X_test, Y_test, Y2_train, Y2_test
 
-# Evaluation function
+# Metrics function
 def dni(seeds, Y) : 
     """
     estimates the number of Different Nodes Infected given a seed set and a DATA-BASED label. 
@@ -107,39 +113,41 @@ def eval_dni(net, X, Y):
     input : X[instances, nI, nT, nF], Y[instances, nI, nT]
     estimates number of different nodes infected based on the cascades
     """
-    Xgpu = X.to(device)
-    Ygpu = Y.to(device)
-    result = np.mean([  dni(    greedy(k, net(Xgpu[i,:,:,:]).view_as(Y_train[0]), w, device)[1]    ,Ygpu[i]) for i in range(X.shape[0])])
-    del Xgpu, Ygpu
+    result = np.mean([  dni(    greedy(k, net(X[i,:,:,:].to(device)).view_as(Y_train[0]), w, device)[1]    ,Y[i].to(device)) for i in range(X.shape[0])])
     return float(result) #float is here to delete the gradient if there is a torch gradient
 
-def eval_grd(net, X, Y):
+def eval_spread(net, X, Y, k=k):
     """  estimates expectation of dni in the bipartite graph: sum(1-prod(1-p_uv))  """
-    Xgpu = X.to(device)
-    Ygpu = Y.to(device)
-    result = np.mean([    set_func(   greedy(k, net(Xgpu[i,:,:,:]).view_as(Y_train[0]), w, device)[1], Ygpu[i, :, :], w, device) for i in range(X.shape[0])])
-    del Xgpu, Ygpu
+    result = np.mean([    set_func(   greedy(k, net(X[i,:,:,:].to(device)).view_as(Y_train[0]), w, device)[1], Y[i, :, :].to(device), w, device) for i in range(X.shape[0])])
     return float(result)
 
-def eval_rnd(X, Y):
-    """  Randomly selects seeds and computes influence  """
-    sol = random.sample(range(N_INFLUENCERS),k)
-    Ygpu = Y.to(device)
-    result = np.mean([set_func(sol, Ygpu[i,:,:], w, device) for i in range(X.shape[0])])
-    del Ygpu
-    return result
+# Training functions 
 
 def loss_unbalanced(pred, P) : 
     """ to counter the sparsity of the data, when the model predicts lower probabilities than the ground truth, the loss is higher """
     return torch.sum(torch.exp(phi * (P - pred)) - phi * (P-pred) - 1)
 
 def reg_avg(P) : 
-    """Prevents model from always predicting 0 or 1"""
+    """Regularization term"""
     return reg_coeff * (0.02 * 1 / torch.mean(P) + 1 / (1 - torch.mean(P)))
     # torch.pow(torch.tan((torch.mean(P) + 0.5) * np.pi) + 1, 2)
 
-def baselines() :
+def init_weights_df(m):
+    if type(m) == nn.Linear:
+        torch.nn.init.xavier_uniform_(m.weight)
 
+def init_weights_2s(m):
+    if type(m) == nn.Linear:
+        m.weight.data.uniform_(-.5, .5)
+
+#Baseline functions 
+
+def highest_degrees(X, k) : 
+    """ returns the k influencers having the highest ingoing degree in the social graph"""
+    return list(X[:, 0, 5].argsort(descending=True).to('cpu').numpy()[:k])
+
+def baselines() :
+    """ Writes the performances of the random, greedy and degree heuristic in baseline.txt"""
     log_rnd = open(output_dir + 'baseline.txt', 'a')
     log_rnd.write(f'{n} - {date} \n')
     start = datetime.datetime.now()
@@ -163,38 +171,26 @@ def baselines() :
     log_rnd.write(f"Runtime : {datetime.datetime.now() - start} \n \n")
     log_rnd.close()
 
-def init_weights_df(m):
-    if type(m) == nn.Linear:
-        torch.nn.init.xavier_uniform_(m.weight)
-
-def init_weights_2s(m):
-    if type(m) == nn.Linear:
-        m.weight.data.uniform_(-.5, .5)
-
-def highest_degrees(X, k) : 
-    return list(X[:, 0, 5].argsort(descending=True).to('cpu').numpy()[:k])
-
 def results_model(logs, net, name):
-    """ returns lists of influence in terms of DNI and expectation for different values of k given a model """ 
+    """ Writes the performances (Spread/DNI on training/testing data) of net in logs"""  
     exps_train, exps_test = [], []
     dnis_train, dnis_test = [], []
     for k in Ks :
-        exps_train.append( np.mean([   set_func(   greedy(k, net(X_train[i]).view_as(Y_train[0]), w, device)[1], Y_train[i], w, device) for i in range(X_train.shape[0])]) )
-        exps_test.append( np.mean([    set_func(   greedy(k, net(X_test[i]) .view_as(Y_test[0]), w, device)[1],  Y_test[i], w, device) for i in range(X_test.shape[0])]) )
-        dnis_train.append( np.mean([   dni(        greedy(k, net(X_train[i]).view_as(Y_train[0]), w, device)[1], Y_train[i]) for i in range(X_train.shape[0])]) )
-        dnis_test.append( np.mean([    dni(        greedy(k, net(X_test[i]) .view_as(Y_test[0]), w, device)[1],  Y_test[i]) for i in range(X_test.shape[0])]) )
+        exps_train.append(eval_spread(net, X_train, Y_train, k))
+        exps_test.append(eval_spread(net, X_test, Y_test, k))
+        dnis_train.append(eval_dni(net, X_train, Y_train))
+        dnis_test.append(eval_dni(net, X_test, Y_test))
     logs.write(f"Exp-train {name}, " + ",".join(map(str,exps_train)) + "\n")
     logs.write(f"Exp-test {name}, " + ",".join(map(str,exps_test)) + "\n")
     logs.write(f"DNI-train {name}, " + ",".join(map(str,dnis_train)) + "\n")
     logs.write(f"DNI-test {name}, " + ",".join(map(str,dnis_test)) + "\n")
 
 def results_rdn_grd_deg(logs) : 
+    """ Writes the performances (Spread/DNI on training/testing data) of the random, greedy and degree heuristic in logs"""
     exps_train_rnd, exps_test_rnd = [], []
     dnis_train_rnd, dnis_test_rnd = [], []
-    
     exps_train_grd, exps_test_grd = [], []
     dnis_train_grd, dnis_test_grd = [], []
-    
     exps_train_deg, exps_test_deg = [], []
     dnis_train_deg, dnis_test_deg = [], []
     
@@ -228,13 +224,13 @@ def results_rdn_grd_deg(logs) :
     logs.write(f"DNI-test deg, " + ",".join(map(str,dnis_test_deg)) + "\n")
     
 # ### Decision focused
-# Model definition
 def train_df() : 
 
     logs_df = open(output_dir + 'df_training.txt', 'a')
     logs_df.write(f"{n} - {date} \n")
     start = datetime.datetime.now()
 
+    # Model definition
     net_df = make_fc(N_FEATURES, num_layers, activation, hidden_sizes, dropout, device)
     net_df.apply(init_weights_df)
     net_df = net_df.to(device)
@@ -247,7 +243,7 @@ def train_df() :
     optimizer = torch.optim.Adam(net_df.parameters(), lr = learning_rate, betas = (momentum, 0.999))
     marginal_vec_pred = partial(marginal_vec, w = w, device=device)
 
-    #LR scheduler 
+    #LR scheduler -- regularization
     lr_sched = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=num_epochs//10 + 1, T_mult=2, eta_min=0.0001, last_epoch=-1)
 
     for epoch in range(num_epochs):
@@ -257,11 +253,9 @@ def train_df() :
             for X, P in zip(X_batch, P_batch):
                 Xgpu = X.to(device)
                 Pgpu = P.to(device)
-
                 true_set_func = partial(set_func, P = Pgpu, w = w, device=device)
                 pred = net_df(Xgpu).view_as(P)
                 fn = GreedyOptimizer.apply
-
                 loss += -fn(pred, true_set_func, marginal_vec_pred, N_INFLUENCERS,  k,  eps, sample_size, beta, device) + reg_avg(pred)
                 
             loss = loss / batch_size
@@ -272,8 +266,8 @@ def train_df() :
         lr_sched.step()
 
         with torch.no_grad():
-            train_score = eval_grd(net_df, X_train, Y_train)
-            test_score  = eval_grd(net_df, X_test, Y_test)
+            train_score = eval_spread(net_df, X_train, Y_train)
+            test_score  = eval_spread(net_df, X_test, Y_test)
             
             if labels=="db" : 
                 train_dni = eval_dni(net_df, X_train, Y_train)
@@ -328,8 +322,8 @@ def train_2s() :
             optimizer.step()
         
         with torch.no_grad():
-            train_score = eval_grd(net_2s, X_train, Y_train)
-            test_score  = eval_grd(net_2s, X_test, Y_test)
+            train_score = eval_spread(net_2s, X_train, Y_train)
+            test_score  = eval_spread(net_2s, X_test, Y_test)
             
             if labels=="db" : 
                 train_dni = eval_dni(net_2s, X_train, Y_train)
@@ -382,18 +376,8 @@ if __name__ == '__main__':
     print('Using device:', device)
 
     torch.cuda.empty_cache()
-    if device.type == 'cuda':
-        print(torch.cuda.get_device_name(0))
-    
-    instance_path = "instances_weibo/07-04-150Cas/"
-    N_INSTANCES = 20
-    N_INFLUENCERS = 500
-    N_TARGETS = 500
-    N_FEATURES = 24
-    N_TRAIN = int(0.8 * N_INSTANCES)
+    if device.type == 'cuda': print(torch.cuda.get_device_name(0))
 
-    # Dataset
-    w = np.ones(N_TARGETS, dtype=np.float32)
     if not os.path.exists(output_dir) : os.mkdir(output_dir)
     
     print(f"Dataset : {instance_path}")
@@ -402,6 +386,7 @@ if __name__ == '__main__':
     Ks = [int(a * N_INFLUENCERS) for a in [0.01,0.02,0.05,0.1,0.2]]
     logs.write(f"Ks : {Ks} \n")
 
+    w = np.ones(N_TARGETS, dtype=np.float32)
     for n in range(n_iter) : 
     
         train_id = random.sample(list(range(N_INSTANCES)), N_TRAIN)
@@ -412,9 +397,7 @@ if __name__ == '__main__':
         print(f"Unbalance : {unbalance}")
 
         date = datetime.datetime.now()
-
         baselines()
-        
         net_df = train_df()
         net_2s = train_2s()
 
