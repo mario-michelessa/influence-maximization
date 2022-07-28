@@ -27,9 +27,27 @@ Directories :
 
 ### preprocessing_weibo.py : 
 
-Converts all the .txt files of data/weibo directory into .pkl files 
+Converts all the .txt files of data/weibo directory into .pkl files.
+The subsampling of the graph can be controlled by the parameters.
+
+**Execution :** 
+
+    dense subsampling :
+    ```
+    python preprocessing_weibo.py --subsampling 2 --n1 -1 --n2 150
+    ```
+    sparse subsampling :
+    ```
+    python preprocessing_weibo.py --subsampling 1 --n1 5000 --n2 10
+    ```
 
 input :
+
+    Parameters : 
+    subsampling :
+        1 for selecting the first n2 reposts of the first n1 cascades
+        2 for selecting the reposts of targets having more than n2 reposts among the n1 first cascades
+    n1, n2
 
     User profile information : 
     data/weibo/weibodata/userProfile/userprofile1.txt
@@ -52,41 +70,39 @@ input :
     data\weibo\weibo_embedding\mtl_n_target_embeddings_p.txt
     data\weibo\weibo_embedding\mtl_n_source_embeddings_p.txt
 
-    Parameters : 
-    subsampling :
-        1 for selecting the first n2 reposts of the first n1 cascades
-        2 for selecting the reposts of targets having more than n2 reposts among the n1 first cascades
-    n1, n2
-
 output :
 
-    userProfile.pkl : i:uid(int64) - bi_followers_count(int32) - city(cat) - verified(cat) - followers_count(int32) - location(object) - province(category) - friends_count(int32) - name(object) - gender(category) -  created_at(object) - verified_type(category) -  statuses_count(int32) - description(object)
+    userProfile.pkl : 
+        i:uid(int64) - bi_followers_count(int32) - city(cat) - verified(cat) - followers_count(int32) - location(object) - province(category) - friends_count(int32) - name(object) - gender(category) -  created_at(object) - verified_type(category) -  statuses_count(int32) - description(object)
         shape : (1681085, 14)
-    infos_influencers3.pkl : i:userid(int64) - total_likes - total_reposts - n_cascades - 0 - 1 - 2 
+    infos_influencers3.pkl : 
+        i:userid(int64) - total_likes - total_reposts - n_cascades - 0 - 1 - 2 
         shape : (47555, 6)
-    infos_targets3.pkl : i:userid(int64) - 0 - 1 - 2
+    infos_targets3.pkl : 
+        i:userid(int64) - 0 - 1 - 2
         shape : (1334887, 3)
-    user_cascades.pkl : i:v(int32) - mids(list(int64)) - Av(int32)
-    infos_cascades.pkl : i:n_cascades - mid(int64) - date(pd.DateTime) - u(int32) - n_likes(int32) - n_reposts(int32) - users2(list(int32))
-    labels{subsampling}_{n1}_{n2}.pkl : i:index - u(int64) - v(int64) - BT(float) - JI(float) - LP(float)
-    edges{subsampling}_{n1}_{n2}.pkl :  i:index - u(int64) - v(int64)
+    user_cascades.pkl : 
+        i:v(int32) - mids(list(int64)) - Av(int32)
+    infos_cascades.pkl : 
+        i:n_cascades - mid(int64) - date(pd.DateTime) - u(int32) - n_likes(int32) - n_reposts(int32) - users2(list(int32))
+    labels{subsampling}_{n1}_{n2}.pkl : 
+        i:index - u(int64) - v(int64) - BT(float) - JI(float) - LP(float)
+    edges{subsampling}_{n1}_{n2}.pkl :  
+        i:index - u(int64) - v(int64)
     influencers_infector.pkl 
         shape : (1170688, 50)
     targets_infector.pkl
         shape : (1170688, 50)
 
-To execute : 
-
-    dense :
-    python preprocessing_weibo.py --subsampling 2 --n1 -1 --n2 150
-    
-    sparse :
-    python preprocessing_weibo.py --subsampling 1 --n1 5000 --n2 10
-
-
 ### feature_engineering_weibo.py : 
 
 Computes the features of the subsampled graph given by preprocessing_weibo.py. 0,1,2 are the topic classification features
+
+**Execution :** 
+
+    ```
+    python feature_engineering_weibo.py --labels-name 'labels2_-1_150.pkl' --edges-name 'edges2_-1_150.pkl' --features-influencers-name 'features_influencers2_-1_150.pkl' --features-targets-name 'features_targets2_-1_150.pkl'
+    ```
 
 input : 
 
@@ -103,15 +119,26 @@ output :
     --features-targets-name : features_targets{subsampling}_{n1}_{n2}.pkl : 
         i:uid(int64) - followers_count(float64) - friends_count(float64) - statuses_count(float64) - verified(int8) - gender(int8) - d_in(float64) - pagerank(float64) - 0(float64) - 1(float64) - 2(float64)
 
-To execute
-
-    python feature_engineering_weibo.py --labels-name 'labels2_-1_150.pkl' --edges-name 'edges2_-1_150.pkl' --features-influencers-name 'features_influencers2_-1_150.pkl' --features-targets-name 'features_targets2_-1_150.pkl'
 
 ### create_instances.py
 
 Given the features, labels, and edges, this file creates instances to feed the model
 
+**Execution :** 
+Modify the parameters in the file and execute
+    
+    ```
+    python create_instances.py
+    ```
+
 input : 
+
+    Parameters :
+    output_dir : output folder         
+    N_INSTANCES : number of instances to create
+    N_INFLUENCERS, N_TARGETS : size of instances
+    PROP_I : proportion of best influencers considered
+    PROB_TYPE (BT, JI, LP) : Method for computing the data-based labels
 
     features_influencers : returned by feature_engineering_weibo.py
     features_targets.pkl : returned by feature_engineering_weibo.py
@@ -120,21 +147,9 @@ input :
     influencers_embeddings :  returned by preprocessing_weibo.py
     targets_embeddings :  returned by preprocessing_weibo.py
     
-    parameters : 
-        
-        N_INSTANCES : number of instances to create
-        N_INFLUENCERS, N_TARGETS : size of instances
-        PROP_I : proportion of best influencers considered
-        PROB_TYPE (BT, JI, LP) : Method for computing the data-based labels
-
 output : 
 
-    N_INSTANCES instances in the 'path' directory, of shape (N_INFLUENCERS, N_TARGETS, N_FEATURES)
-
-To execute :
-Modify the parameters in the file and execute
-    
-    python create_instances.py
+    N_INSTANCES instances in the 'output_dir' directory, of shape (N_INFLUENCERS, N_TARGETS, N_FEATURES + 3)
 
 ### greedy_coverage_gpu.py
 
@@ -148,7 +163,14 @@ Modify the parameters in the file and execute
 
 Training of the 2-stage and the decision focused model
     
-Parameters : 
+**Execution :** 
+Modify the instance path, N_INSTANCE, N_INFLUENCERS, N_TARGETS, N_FEATURES in the file and execute 
+    
+    ```
+    python grd_main.py --n-iter 15 --output_dir 'results/experience1/' --device 'cpu'
+    ```
+
+input : 
 
     --net-df/2s-path : name of the models
     --labels : db, infector or inf2vec
@@ -157,14 +179,16 @@ Parameters :
     --device : device on which the file runs. 'cpu', 'cuda:0', 'cuda:1'...
     
     instance_path : folder containing the N_INSTANCES of shape (N_INFLUENCERS, N_TARGETS, N_FEATURES + labels)
+    N_INSTANCE, N_INFLUENCERS, N_TARGETS, N_FEATURES
+
 
 output (in output_dir) : 
 
+    Models :
     output_dir/net_df_path_{labels}_{i}.pt for i in range(n_iter) : the n_iter df models trained
     output_dir/net_2s_path_{labels}_{i}.pt for i in range(n_iter) : the n_iter 2s models trained
 
     output_dir/df_training.txt : logs of the training of the df models
-        n_iter - date
         epoch | loss | train_score | test_score | dni_train | dni_test | mean(pred) | learning_rate
         0 | -25.949039459228516 | 159.42720127105713 | 162.54154205322266 | 326.25 | 334.75 | 0.018852414563298225 | 0.0007750000000000001
         ...
@@ -174,21 +198,20 @@ output (in output_dir) :
     output_dir/perfs_train_test.txt : average final performances for each of the n_iter models for various values of K (number of seeds)
     (Exp-train df, Exp-test df, DNI-train df, DNI-test df, Exp-train 2s, Exp-test 2s, DNI-train 2s, DNI-test 2s, Exp-train rnd, Exp-test rnd, DNI-train rnd, DNI-test rnd, Exp-train grd, Exp-test grd, DNI-train grd, DNI-test grd, Exp-train deg, Exp-test deg, DNI-train deg, DNI-test deg)
         Example : 
-        {date} - Dataset : {instance_path} - labels : db - numepochs : 20 - batchsize : 5 - lr : 0.001 - regcoeff : 0.1 
-        Ks : [5, 10, 25, 50, 100] 
         Exp-train df, 112.97524213790894,172.15905284881592,276.28208351135254,357.4610347747803,418.4751853942871
         ...
 
     output_dir.baselines.txt : average performances of random algorithm, greedy-oracle algorithm and degree heuristic for each of the n_iter models. (They are varying because the train/test split is different for every model)
 
-To execute : 
-Modify the instance path, N_INSTANCE, N_INFLUENCERS, N_TARGETS, N_FEATURES in the file and execute 
-    
-    python grd_main.py --n-iter 15 --output_dir 'results/experience1/'
-
 ### results.py 
 
 The models returned by grd_main.py can be tested on other instances : sparse instances, twitter instances.
+
+**Execution :**
+    
+    ```
+    python results.py --models-path 'results/experience/' --n-iter 15 --instances-path 'data/weibo_instances/sparse/' --n-instances 20 --labels db --file_name 'perfs_sparse.txt'
+    ```
 
 input :
 
@@ -212,10 +235,16 @@ output :
         ...
 
 
-
 ### convert_result_file.py 
 
 Converts the results of output_dir/perfs_train_test.txt or the output of results.py in a .csv file containing the avg and the std of the n_iter different models
+
+**Execution : **
+
+    ```
+    python convert_results_file.py --n-iter 15 --file-path 'results/experience1/perfs_sparse.txt' --sparse True
+    python convert_results_file.py --n-iter 15 --file-path 'results/experience1/perfs_train_test.txt' 
+    ```
 
 input : 
 
@@ -230,12 +259,33 @@ output :
 
 ### vizualize_training.py
 
-    input : 
-    
-        output_dir/df_training.txt or 2s_training.txt
-    
-    output : 
-    
-        plots graphs of the different values wrt the epochs
+**Execution : **
+
+    ```
+    python vizualize_training.py --input-dir 'results/experience1/df_training.txt' --title 'Training of the decision-focused models of Experience 1 '
+    ```
+
+input : 
+
+    output_dir/df_training.txt or 2s_training.txt
+
+output : 
+
+    plots graphs of the different values wrt the epochs
+
+## References
+
+Main paper : 
+Shinsaku Sakaue, Differentiable Greedy Submodular Maximization: Guarantees, Gradient Estimators, and Applications. [DOI](
+https://doi.org/10.48550/arXiv.2005.02578)
+
+Fan Zhou, Xovee Xu, Goce Trajcevski, and Kunpeng Zhang. 2021. A Survey of Information Cascade Analysis: Models, Predictions, and Recent Advances. ACM Comput. Surv. 54, 2, Article 27 (March 2022), 36 pages. [DOI](https://doi.org/10.1145/3433000)
+
+Amit Goyal, Francesco Bonchi, and Laks V.S. Lakshmanan. 2010. Learning influence probabilities in social networks. In Proceedings of the third ACM international conference on Web search and data mining (WSDM '10). Association for Computing Machinery, New York, NY, USA, 241–250. [DOI](https://doi.org/10.1145/1718487.1718518)
+
+G. Panagopoulos, F. Malliaros and M. Vazirgiannis, "Multi-task Learning for Influence Estimation and Maximization," in IEEE Transactions on Knowledge and Data Engineering, [DOI] (https://doi.org/10.1109/TKDE.2020.3040028)
+
+Ko, K. Lee, K. Shin and N. Park, "MONSTOR: An Inductive Approach for Estimating and Maximizing Influence over Unseen Networks," in 2020 IEEE/ACM International Conference on Advances in Social Networks Analysis and Mining (ASONAM), The Hague, Netherlands, 2020 pp. 204-211.
+[DOI] (https://doi.org/10.1109/ASONAM49781.2020.9381460)
 
 
