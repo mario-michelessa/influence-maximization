@@ -10,6 +10,19 @@ Twitter dataset :
 
     https://www.dropbox.com/sh/g13q1yxpahtujvp/AABv48Av_flaemZXLlnV2Nnea?dl=0
 
+Directories : 
+
+    data/
+        weibo/weibodata/ : raw data
+        weibo_preprocessed/ : data from preprocessing_weibo.py
+        weibo_features/ : data from features_engineering_weibo.py
+        instances_weibo/ : data from create_instances.py
+        twitter/ : raw data
+        twitter_preprocessed/ : data from preprocessing_twitter.py
+    
+    results/
+        results returned by grd_main.py, results.py
+
 ## Files : 
 
 ### preprocessing_weibo.py : 
@@ -197,7 +210,9 @@ output :
         Exp df, 0.3021872669458389,0.587222883105278,1.385655701160431,2.744034457206726,5.421094512939453
         DNI df, 36.75,56.7,83.1,117.05,174.2
         ...
-            
+
+
+
 ### convert_result_file.py 
 
 Converts the results of output_dir/perfs_train_test.txt or the output of results.py in a .csv file containing the avg and the std of the n_iter different models

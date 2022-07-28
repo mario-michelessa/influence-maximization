@@ -9,7 +9,6 @@ import argparse
 import warnings
 warnings.filterwarnings('ignore')
 
-
 # graph_twitter_full.csv : 
 #     - 62293412 lines
 #     - 12,15
