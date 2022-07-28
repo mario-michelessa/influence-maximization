@@ -19,7 +19,7 @@ import argparse
 import datetime
  
 ### To edit
-instance_path = "instances_weibo/07-04-150Cas/"
+instance_path = "data/instances_weibo/07-04-150Cas/"
 N_INSTANCES = 20
 N_INFLUENCERS = 500
 N_TARGETS = 500

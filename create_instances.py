@@ -23,7 +23,7 @@ targets_inf2vec_path = "data/weibo_preprocessed/target_inf2vec.pkl"
 
 PROB_TYPE = 'JI'
 
-path = 'decision_focused_learning_gpu/instances_weibo/07-17-sparse_cas/'
+output_dir = 'data/instances_weibo/07-17-sparse_cas/'
 N_INSTANCES = 20
 N_INFLUENCERS = 1000
 N_TARGETS = 1000
@@ -153,20 +153,20 @@ n = int(influencers.shape[0] * PROP_I)
 influencers = influencers.iloc[:n].index
 
 # Generate all instances
-if not os.path.exists(path) :
-    os.mkdir(path)
+if not os.path.exists(output_dir) :
+    os.mkdir(output_dir)
 
 for instance in range(N_INSTANCES) : 
 
     # if instance % (N_INSTANCES // 10) == 0 : print(f"Saving instance {instance}/{N_INSTANCES}...")
 
-    if os.path.exists(path + f'{instance}.npz') :
+    if os.path.exists(output_dir + f'{instance}.npz') :
         print("Instance already created")
     else :
         sampled_influencers = np.random.choice(influencers, N_INFLUENCERS, p = None, replace=False)
         sampled_targets = np.random.choice(targets, N_TARGETS, p = None, replace=False)
         XY = create_XY(sampled_influencers, sampled_targets)
-        np.savez(path + f'{instance}.npz', XY)    
+        np.savez(output_dir + f'{instance}.npz', XY)    
         del(XY)
     
 print("End")

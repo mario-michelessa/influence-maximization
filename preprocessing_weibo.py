@@ -441,7 +441,7 @@ if __name__ == '__main__':
         
     ### User profile infos ###
     user_profile = convert_userProfile(True)
-    user_profile = pd.read_pickle(output_folder + "userProfile.pkl")
+    # user_profile = pd.read_pickle(output_folder + "userProfile.pkl")
 
     ### Cascades infos ###
     user_cascades, infos_cascades = extract_info_cascades(True)
