@@ -33,13 +33,10 @@ The subsampling of the graph can be controlled by the parameters.
 **Execution :** 
 
     dense subsampling :
-    ```
     python preprocessing_weibo.py --subsampling 2 --n1 -1 --n2 150
-    ```
+   
     sparse subsampling :
-    ```
     python preprocessing_weibo.py --subsampling 1 --n1 5000 --n2 10
-    ```
 
 input :
 
@@ -100,9 +97,7 @@ Computes the features of the subsampled graph given by preprocessing_weibo.py. 0
 
 **Execution :** 
 
-    ```
     python feature_engineering_weibo.py --labels-name 'labels2_-1_150.pkl' --edges-name 'edges2_-1_150.pkl' --features-influencers-name 'features_influencers2_-1_150.pkl' --features-targets-name 'features_targets2_-1_150.pkl'
-    ```
 
 input : 
 
@@ -127,9 +122,7 @@ Given the features, labels, and edges, this file creates instances to feed the m
 **Execution :** 
 Modify the parameters in the file and execute
     
-    ```
     python create_instances.py
-    ```
 
 input : 
 
@@ -166,9 +159,7 @@ Training of the 2-stage and the decision focused model
 **Execution :** 
 Modify the instance path, N_INSTANCE, N_INFLUENCERS, N_TARGETS, N_FEATURES in the file and execute 
     
-    ```
     python grd_main.py --n-iter 15 --output_dir 'results/experience1/' --device 'cpu'
-    ```
 
 input : 
 
@@ -209,9 +200,7 @@ The models returned by grd_main.py can be tested on other instances : sparse ins
 
 **Execution :**
     
-    ```
     python results.py --models-path 'results/experience/' --n-iter 15 --instances-path 'data/weibo_instances/sparse/' --n-instances 20 --labels db --file_name 'perfs_sparse.txt'
-    ```
 
 input :
 
@@ -241,10 +230,8 @@ Converts the results of output_dir/perfs_train_test.txt or the output of results
 
 **Execution : **
 
-    ```
     python convert_results_file.py --n-iter 15 --file-path 'results/experience1/perfs_sparse.txt' --sparse True
     python convert_results_file.py --n-iter 15 --file-path 'results/experience1/perfs_train_test.txt' 
-    ```
 
 input : 
 
@@ -261,9 +248,7 @@ output :
 
 **Execution : **
 
-    ```
     python vizualize_training.py --input-dir 'results/experience1/df_training.txt' --title 'Training of the decision-focused models of Experience 1 '
-    ```
 
 input : 
 
@@ -283,9 +268,9 @@ Fan Zhou, Xovee Xu, Goce Trajcevski, and Kunpeng Zhang. 2021. A Survey of Inform
 
 Amit Goyal, Francesco Bonchi, and Laks V.S. Lakshmanan. 2010. Learning influence probabilities in social networks. In Proceedings of the third ACM international conference on Web search and data mining (WSDM '10). Association for Computing Machinery, New York, NY, USA, 241–250. [DOI](https://doi.org/10.1145/1718487.1718518)
 
-G. Panagopoulos, F. Malliaros and M. Vazirgiannis, "Multi-task Learning for Influence Estimation and Maximization," in IEEE Transactions on Knowledge and Data Engineering, [DOI] (https://doi.org/10.1109/TKDE.2020.3040028)
+G. Panagopoulos, F. Malliaros and M. Vazirgiannis, "Multi-task Learning for Influence Estimation and Maximization," in IEEE Transactions on Knowledge and Data Engineering, [DOI](https://doi.org/10.1109/TKDE.2020.3040028)
 
 Ko, K. Lee, K. Shin and N. Park, "MONSTOR: An Inductive Approach for Estimating and Maximizing Influence over Unseen Networks," in 2020 IEEE/ACM International Conference on Advances in Social Networks Analysis and Mining (ASONAM), The Hague, Netherlands, 2020 pp. 204-211.
-[DOI] (https://doi.org/10.1109/ASONAM49781.2020.9381460)
+[DOI](https://doi.org/10.1109/ASONAM49781.2020.9381460)
 
 
